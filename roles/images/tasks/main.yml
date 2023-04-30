@@ -4,8 +4,8 @@
     pkg: feh
     state: latest
 
-- name: Install Gimp
-  become: yes
-  ansible.builtin.apt:
-    pkg: gimp
-    state: latest
+#- name: Install Gimp
+#  become: yes
+#  ansible.builtin.apt:
+#    pkg: gimp
+#    state: latest

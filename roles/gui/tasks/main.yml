@@ -1,3 +1,9 @@
+- name: "Install pip3"
+  become: yes
+  ansible.builtin.apt:
+    pkg: python3-pip
+    state: latest
+
 - name: "Force install pywal python package"
   become: yes
   ansible.builtin.pip:
@@ -104,18 +110,6 @@
     pkg: network-manager
     state: latest
 
-- name: "Install dunst"
-  become: yes
-  ansible.builtin.apt:
-    pkg: dunst
-    state: latest
-
-- name: "Install pip3"
-  become: yes
-  ansible.builtin.apt:
-    pkg: python3-pip
-    state: latest
-
 - name: "Install materia-gtk-theme"
   become: yes
   ansible.builtin.apt:
@@ -153,16 +147,3 @@
   args: 
       creates: "{{ home_dir }}/.local/share/themes"
 
-# - name: "Install gtk-engines"
-#   become: yes
-#   ansible.builtin.apt:
-#     pkg: gtk-engines
-#     state: latest
-
-# - name: "Install gtk-engine-murrine"
-#   become: yes
-#   ansible.builtin.apt:
-#     pkg: gtk-engine-murrine
-#     state: latest
-
-   

@@ -88,20 +88,14 @@ assign [instance="skype"] $wsA
 assign [class="Signal"] $wsA
 assign [class="zoom"] $wsA
 
-exec --no-startup-id firefox
-# exec --no-startup-id google-chrome
-# exec --no-startup-id thunderbird
+# exec --no-startup-id firefox
+exec --no-startup-id google-chrome
+exec --no-startup-id thunderbird
 
 # start a terminal
 bindsym $alt+Shift+Return exec i3-sensible-terminal
-# bindsym $win+Return exec --no-startup-id kitty -c ~/.config/i3/kitty/kitty.conf
 
-# bindsym $alt+Shift+f exec google-chrome
-# bindsym $alt+Shift+d exec discord
-# bindsym $alt+Shift+s exec atom
-# bindsym $alt+Shift+e exec emacs
 bindsym $alt+Shift+k exec keepass2 ; exec i3-msg 'workspace 0'
-# bindsym $alt+Shift+i exec thunderbird
 bindsym $win+e exec nautilus ; exec i3-msg 'workspace 9' # windows compatibility
 bindsym $win+x exec i3lock-fancy -c 000000
 bindsym $win+p exec scrot '%Y-%m-%d_$wx$h_%H:%M:%S.png' -e 'mv $f ~/Pictures/Screenshots/'

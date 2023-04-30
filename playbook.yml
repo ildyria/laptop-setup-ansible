@@ -13,17 +13,7 @@
     - { role: browser, become: yes, tags: [ 'browser' ] }
     - { role: multimedia, become: yes, tags: [ 'audio', 'multimedia', 'video' ] }
     - { role: gui, become: yes, tags: [ 'gui' ] }
-    # - { role: api, become: yes, tags: [ 'api', 'development' ] }
-    # - { role: browsers, become: yes, tags: [ 'browser' ] }
-    # - { role: cloud, become: yes, tags: [ 'cloud' ] }
-    # - { role: common, become: yes, tags: [ 'common' ] }
     - { role: docker, become: yes, tags: [ 'development' ] }
-    # - { role: databases, become: yes, tags: [ 'development', 'database' ] }
-    # - { role: graphics, become: yes, tags: [ 'graphics' ] }
-    # - { role: java, become: yes, tags: [ 'development', 'java' ] }
-    # - { role: nodejs, become: yes, tags: [ 'development', 'js', 'node' ] }
-    # - { role: productivity, become: yes, tags: [ 'productivity' ] }
-    # - { role: python, become: yes, tags: [ 'development', 'python' ] }
     - { role: keepass2, become: yes, tags: [ 'keepass2' ] }
     - { role: discord, become: yes, tags: [ 'discord' ] }
   tasks:

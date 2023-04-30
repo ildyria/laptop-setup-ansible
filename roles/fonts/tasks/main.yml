@@ -36,7 +36,7 @@
     path: "{{ home_dir }}/.install/nerd-fonts"
   register: nerd_fonts_dir
 
-- name: "Clone Nerd Fonts repo to {{ home_dir }}/nerd-fonts"
+- name: "Clone Nerd Fonts repo to {{ home_dir }}/.install/nerd-fonts"
   ansible.builtin.git:
     repo: https://github.com/ryanoasis/nerd-fonts.git
     depth: 1
