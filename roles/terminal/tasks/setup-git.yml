@@ -1,0 +1,23 @@
+- name: install Git line tools
+  tags:
+    - terminal
+  become: true
+  apt:
+    name:
+      - git
+    state: latest
+
+- name: "Create .config/git directory if it does not exist"
+  ansible.builtin.file:
+    path: "{{ home_dir }}/.config/git"
+    state: directory
+    owner: "{{ linux_user }}"
+    group: "{{ linux_user }}"
+    mode: '0755'
+
+- name: Set up git config
+  ansible.builtin.template:
+    src: "gitconfig"
+    dest: "{{ home_dir }}/.config/git/config"
+    owner: "{{ linux_user }}"
+    group: "{{ linux_user }}"

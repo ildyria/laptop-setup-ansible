@@ -97,11 +97,11 @@ bindsym $alt+Shift+Return exec i3-sensible-terminal
 
 bindsym $alt+Shift+k exec keepass2 ; exec i3-msg 'workspace 0'
 bindsym $win+e exec nautilus ; exec i3-msg 'workspace 9' # windows compatibility
-bindsym $win+x exec i3lock-fancy -c 000000
+bindsym $win+x exec i3lock-fancy-rapid 5 3
 bindsym $win+p exec scrot '%Y-%m-%d_$wx$h_%H:%M:%S.png' -e 'mv $f ~/Pictures/Screenshots/'
 
 # let's start a bunch of utilities (autolock after 10 minutes, nm-applet for the wifi)
-exec --no-startup-id xautolock -time 3 -locker 'i3lock-fancy -d -c 000000'
+exec --no-startup-id xautolock -time 3 -locker 'i3lock-fancy-rapid 5 3'
 
 # kill focused window
 bindsym $alt+F4 kill
