@@ -1,0 +1,11 @@
+- name: Install Feh (Fast X11 image viewer)
+  become: yes
+  ansible.builtin.apt:
+    pkg: feh
+    state: latest
+
+- name: Install Gimp
+  become: yes
+  ansible.builtin.apt:
+    pkg: gimp
+    state: latest

@@ -1,0 +1,94 @@
+# install proper terminal
+- name: Install urxvt
+  tags: terminal
+  become: yes
+  ansible.builtin.apt:
+    pkg: rxvt-unicode
+    state: latest
+
+- name: Correct terminal version selected
+  community.general.alternatives:
+    name: x-terminal-emulator
+    path: /usr/bin/urxvt
+
+- name: Set up Xdefaults
+  ansible.builtin.template:
+    src: "Xdefaults"
+    dest: "{{ home_dir }}/.Xdefaults"
+    owner: "{{ linux_user }}"
+    group: "{{ linux_user }}"
+    # mode: '0644'
+
+- name: Install zsh
+  tags:
+    - terminal
+  become: yes
+  ansible.builtin.apt:
+    pkg: zsh
+    state: latest
+
+- name: "Update shell of {{ linux_user }}"
+  ansible.builtin.user:
+    name: "{{ linux_user }}"
+    shell: /usr/bin/zsh
+
+- name: install common command line tools
+  tags:
+    - terminal
+  become: yes
+  apt:
+    name:
+      - git
+      - btop
+      - curl
+      - htop
+      - vim
+      - vim-airline
+      - wget
+    state: latest
+
+- name: "Create .config/git directory if it does not exist"
+  ansible.builtin.file:
+    path: "{{ home_dir }}/.config/git"
+    state: directory
+    owner: "{{ linux_user }}"
+    group: "{{ linux_user }}"
+    mode: '0755'
+
+- name: Set up git config
+  ansible.builtin.template:
+    src: "gitconfig"
+    dest: "{{ home_dir }}/.config/git/config"
+    owner: "{{ linux_user }}"
+    group: "{{ linux_user }}"
+
+
+- name: "Clone oh-my-zsh"
+  ansible.builtin.command: "git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git {{ home_dir }}/.oh-my-zsh"
+  args: 
+      creates: "{{ home_dir }}/.oh-my-zsh"
+
+- name: "Clone zsh-autosuggestions"
+  ansible.builtin.command: "git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions {{ home_dir }}/.oh-my-zsh/plugins/zsh-autosuggestions"
+  args: 
+      creates: "{{ home_dir }}/.oh-my-zsh/plugins/zsh-autosuggestions"
+
+- name: "Clone zsh-syntax-highlighting"
+  ansible.builtin.command: "git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting {{ home_dir }}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+  args: 
+      creates: "{{ home_dir }}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+
+- name: "Set up zshrc"
+  ansible.builtin.template:
+    src: "zshrc"
+    dest: "{{ home_dir }}/.zshrc"
+    owner: "{{ linux_user }}"
+    group: "{{ linux_user }}"
+
+- name: "Set up permissions oh-my-zsh"
+  ansible.builtin.file:
+    dest: "{{ home_dir }}/.oh-my-zsh"
+    owner: "{{ linux_user }}"
+    group: "{{ linux_user }}"
+    recurse: yes
+

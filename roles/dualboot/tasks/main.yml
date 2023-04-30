@@ -1,0 +1,15 @@
+---
+- name: Update the /etc/default/grub file 
+  tags: etcgrub
+  become: yes
+  lineinfile:
+    path: "/etc/default/grub"
+    regexp: "#GRUB_DISABLE_OS_PROBER=false"
+    line: "GRUB_DISABLE_OS_PROBER=false"
+    state: present
+    backup: yes
+
+- name: "update grub"
+  become: yes
+  ansible.builtin.command: "update-grub"
+

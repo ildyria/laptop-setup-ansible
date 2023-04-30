@@ -1,0 +1,52 @@
+---
+- name: Install dependencies (apt)
+  become: yes
+  ansible.builtin.apt:
+    name:
+      - ca-certificates
+      - apt-transport-https
+      - gconf2
+      - libasound2
+      - libgtk2.0-0
+      - libxss1
+      - libxcb-dri3-0
+      - libdrm2
+      - libgbm1
+      - libxshmfence1
+    state: present
+
+- name: Create APT keyrings dir
+  become: yes
+  ansible.builtin.file:
+    path: '/etc/apt/keyrings'
+    state: directory
+    mode: 'u=rwx,go=rx'
+
+- name: Installing Visual Studio Code
+  ansible.builtin.apt:
+    deb: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+
+
+
+# - name: Install key (apt)
+#   become: yes
+#   ansible.builtin.get_url:
+#     url: 'https://packages.microsoft.com/keys/microsoft.asc'
+#     dest: '/etc/apt/keyrings/'
+#     mode: 'u=rw,go=r'
+#     force: yes
+
+# - name: Install VS Code repo (apt)
+#   become: yes
+#   ansible.builtin.apt_repository:
+#     repo: >-
+#       deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/microsoft.asc]
+#       https://packages.microsoft.com/repos/code stable main
+#     filename: vscode
+#     state: present
+
+# - name: Install VS Code (apt)
+#   become: yes
+#   ansible.builtin.apt:
+#     name: "code"
+#     state: latest

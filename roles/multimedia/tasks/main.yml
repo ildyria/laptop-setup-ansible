@@ -1,0 +1,40 @@
+- name: Install FFmpeg
+  tags:
+    - video-editing
+  ansible.builtin.apt:
+    pkg: ffmpeg
+    state: latest
+
+- name: Install imagemagick
+  tags:
+    - image-editing
+  ansible.builtin.apt:
+    pkg: imagemagick
+    state: latest
+
+- name: Ensure dependencies are installed.
+  apt:
+    name:
+      - snapd
+    state: present
+
+- name: Install Spotify
+  tags:
+    - music
+    - podcast
+  community.general.snap:
+    name: spotify
+    state: present
+
+- name: Install VLC
+  tags:
+    - music
+    - video-player
+  community.general.snap:
+    name: vlc
+    state: present
+
+# - name: Install youtube-dl
+#   ansible.builtin.apt:
+#     pkg: youtube-dl
+#     state: latest
