@@ -1,6 +1,6 @@
 ---
 - name: "Install keepass2"
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: keepass2
     state: latest

@@ -1,7 +1,7 @@
 # install proper terminal
 - name: Install urxvt
   tags: terminal
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: rxvt-unicode
     state: latest
@@ -22,7 +22,7 @@
 - name: Install zsh
   tags:
     - terminal
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: zsh
     state: latest
@@ -35,7 +35,7 @@
 - name: install common command line tools
   tags:
     - terminal
-  become: yes
+  become: true
   apt:
     name:
       - git
@@ -45,6 +45,7 @@
       - vim
       - vim-airline
       - wget
+      - neofetch
     state: latest
 
 - name: "Create .config/git directory if it does not exist"

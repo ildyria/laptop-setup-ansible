@@ -5,16 +5,16 @@
     home_dir: "{{ lookup('env', 'HOME') }}"
     linux_user: "{{ lookup('env', 'USER') }}"
   roles:
-    - { role: dualboot, become: yes, tags: [ 'dualboot' ] }
-    - { role: terminal, become: yes, tags: [ 'terminal' ] }
-    - { role: fonts, become: yes, tags: [ 'fonts' ] }
-    - { role: code, become: yes, tags: [ 'development' ] }
-    - { role: images, become: yes, tags: [ 'images' ] }
-    - { role: browser, become: yes, tags: [ 'browser' ] }
-    - { role: multimedia, become: yes, tags: [ 'audio', 'multimedia', 'video' ] }
-    - { role: gui, become: yes, tags: [ 'gui' ] }
-    - { role: docker, become: yes, tags: [ 'development' ] }
-    - { role: keepass2, become: yes, tags: [ 'keepass2' ] }
-    - { role: discord, become: yes, tags: [ 'discord' ] }
+    - { role: dualboot, become: true, tags: [ 'dualboot' ] }
+    - { role: terminal, become: true, tags: [ 'terminal' ] }
+    - { role: fonts, become: true, tags: [ 'fonts' ] }
+    - { role: code, become: true, tags: [ 'development' ] }
+    - { role: images, become: true, tags: [ 'images' ] }
+    - { role: browser, become: true, tags: [ 'browser' ] }
+    - { role: multimedia, become: true, tags: [ 'audio', 'multimedia', 'video' ] }
+    - { role: gui, become: true, tags: [ 'gui' ] }
+    - { role: docker, become: true, tags: [ 'development' ] }
+    - { role: keepass2, become: true, tags: [ 'keepass2' ] }
+    - { role: discord, become: true, tags: [ 'discord' ] }
   tasks:
     - debug: msg="You are the user {{ lookup('env','USER') }}"

@@ -1,17 +1,17 @@
 - name: "Install pip3"
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: python3-pip
     state: latest
 
 - name: "Force install pywal python package"
-  become: yes
+  become: true
   ansible.builtin.pip:
     name: pywal
     extra_args: --break-system-packages
 
 - name: "Install compton"
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: compton
     state: latest
@@ -24,25 +24,33 @@
     group: "{{ linux_user }}"
 
 - name: install materia-gtk-theme
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: materia-gtk-theme
     state: latest
 
+- name: "Make sure {{ home_dir }}/Pictures/Screenshots exists"
+  ansible.builtin.file:
+    path: "{{ home_dir }}/Pictures/Screenshots"
+    state: directory
+    owner: "{{ linux_user }}"
+    group: "{{ linux_user }}"
+    mode: '0755'
+
 - name: "Install i3"
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: i3
     state: latest
 
 - name: "Install i3-wm"
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: i3-wm
     state: latest
 
 - name: "Install lock"
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: i3lock-fancy
     state: latest
@@ -78,7 +86,7 @@
     group: "{{ linux_user }}"
 
 - name: "Install rofi"
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: rofi
     state: latest
@@ -99,19 +107,19 @@
     group: "{{ linux_user }}"
 
 - name: "Install polybar"
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: polybar
     state: latest
 
 - name: "Install nmtui"
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: network-manager
     state: latest
 
 - name: "Install materia-gtk-theme"
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: materia-gtk-theme
     state: latest

@@ -1,6 +1,6 @@
 ---
 - name: Install dependencies (apt)
-  become: yes
+  become: true
   ansible.builtin.apt:
     name:
       - ca-certificates
@@ -16,7 +16,7 @@
     state: present
 
 - name: Create APT keyrings dir
-  become: yes
+  become: true
   ansible.builtin.file:
     path: '/etc/apt/keyrings'
     state: directory
@@ -29,7 +29,7 @@
 
 
 # - name: Install key (apt)
-#   become: yes
+#   become: true
 #   ansible.builtin.get_url:
 #     url: 'https://packages.microsoft.com/keys/microsoft.asc'
 #     dest: '/etc/apt/keyrings/'
@@ -37,7 +37,7 @@
 #     force: yes
 
 # - name: Install VS Code repo (apt)
-#   become: yes
+#   become: true
 #   ansible.builtin.apt_repository:
 #     repo: >-
 #       deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/microsoft.asc]
@@ -46,7 +46,7 @@
 #     state: present
 
 # - name: Install VS Code (apt)
-#   become: yes
+#   become: true
 #   ansible.builtin.apt:
 #     name: "code"
 #     state: latest

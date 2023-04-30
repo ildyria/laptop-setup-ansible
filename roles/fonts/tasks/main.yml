@@ -8,25 +8,25 @@
     recurse: true
 
 - name : "Install fonts deja vu"
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: fonts-dejavu
     state: latest
 
 - name: install fonts-jetbrains-mono
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: fonts-jetbrains-mono
     state: latest
 
 - name: install fonts-noto
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: fonts-noto
     state: latest
 
 - name: install fonts-cantarell
-  become: yes
+  become: true
   ansible.builtin.apt:
     pkg: fonts-cantarell
     state: latest
