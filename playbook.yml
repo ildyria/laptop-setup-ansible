@@ -7,6 +7,7 @@
   roles:
     - { role: dualboot, become: true, tags: [ 'dualboot' ] }
     - { role: terminal, become: true, tags: [ 'terminal' ] }
+    - { role: python, become: true, tags: [ 'python' ] }
     - { role: fonts, become: true, tags: [ 'fonts' ] }
     - { role: code, become: true, tags: [ 'development' ] }
     - { role: images, become: true, tags: [ 'images' ] }

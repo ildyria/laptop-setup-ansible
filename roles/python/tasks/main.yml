@@ -1,0 +1,11 @@
+- name: "Install pip3"
+  become: true
+  ansible.builtin.apt:
+    pkg: python3-pip
+    state: latest
+
+- name: "Install poetry"
+  become: true
+  ansible.builtin.apt:
+    pkg: python3-poetry
+    state: latest
