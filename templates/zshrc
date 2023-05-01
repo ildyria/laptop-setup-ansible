@@ -153,8 +153,9 @@ alias rmdup='rm *\(*\).*'
 # Add local 'pip' to PATH:
 # (In your .bashrc, .zshrc etc)
 export PATH="${PATH}:${HOME}/.local/bin/"
+export PATH=${PATH}:/usr/local/go/bin
 
-# alias commit='git commit -am "$(curl -s whatthecommit.com/index.txt)"'
+alias commit='git commit -am "$(curl -s https://whatthecommit.com/index.txt)"'
 
 # export PATH=~/bin:$PATH:/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin
 # export PATH=$PATH:/home/biv/Documents/Personnal/eclipse/bin/x86_64_linux

@@ -18,7 +18,8 @@
     - { role: 10-discord, become: true, tags: ['communication'] }
     - { role: 11-signal, become: true, tags: ['signal'] }
     - { role: 12-apache2-php, become: true, tags: ['apache'] }
+    - { role: 13-go-minica, become: true, tags: ['minica'] }
   tasks:
     - name: "Who am I?"
       ansible.builtin.debug:
-        msg: "You are the user {{ lookup('env','USER') }} "
+        msg: "You are the user {{ lookup('env','USER') }}"
