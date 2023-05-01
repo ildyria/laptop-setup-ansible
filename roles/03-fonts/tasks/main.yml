@@ -37,16 +37,8 @@
     chdir: "{{ home_dir }}/.install/nerd-fonts/"
   when: not nerd_fonts_dir.stat.exists
 
-- name: "Remove Nerd Fonts"
-  become: true
-  ansible.builtin.file:
-    path: "{{ home_dir }}/.install/nerd-fonts"
-    state: absent
-  when: not nerd_fonts_dir.stat.exists
-
 # Only rebuild cache if we actually insalled the Nerd Fonts
-- name: "rebuild font cache"
+- name: "Rebuild font cache"
   become_user: "{{ linux_user }}"
   ansible.builtin.command: "fc-cache -fv"
   when: not nerd_fonts_dir.stat.exists
-

@@ -48,4 +48,4 @@
     dest: "{{ home_dir }}/.oh-my-zsh"
     owner: "{{ linux_user }}"
     group: "{{ linux_user }}"
-    recurse: yes
+    recurse: true

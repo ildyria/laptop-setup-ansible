@@ -23,7 +23,7 @@
 # Required dependency to compile
 - name: Install dependencies
   become: true
-  apt:
+  ansible.builtin.apt:
     name:
       - libx11-dev
       - i3lock
@@ -33,7 +33,7 @@
 
 # Compilation step
 - name: "Compile i3lock-fancy-rapid"
-  shell:
+  ansible.builtin.shell:
     cmd: "make"
     chdir: "{{ home_dir }}/.install/i3lock-fancy-rapid"
   when: not i3lock_fancy_rapid.stat.exists

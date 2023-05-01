@@ -1,4 +1,4 @@
-- name: install materia-gtk-theme
+- name: "Install materia-gtk-theme"
   become: true
   ansible.builtin.apt:
     pkg: materia-gtk-theme
@@ -18,6 +18,7 @@
     dest: "{{ home_dir }}/.config/gtk-3.0/settings.ini"
     owner: "{{ linux_user }}"
     group: "{{ linux_user }}"
+    mode: '0755'
 
 - name: "Create gtk-4.0 directory if it does not exist"
   ansible.builtin.file:

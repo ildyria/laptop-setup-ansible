@@ -9,6 +9,7 @@
   ansible.builtin.get_url:
     url: https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-english.tar.gz
     dest: "{{ home_dir }}/.install/phpmyadmin.tar.gz"
+    mode: '0755'
 
 - name: "Create directory /var/www/html/phpmyadmin"
   ansible.builtin.file:
@@ -16,7 +17,7 @@
     state: directory
     owner: "www-data"
     group: "www-data"
-    mode: "755"
+    mode: '0755'
 
 - name: "Extract phpmyadmin.tar.gz into /var/www/html/phpmyadmin"
   ansible.builtin.unarchive:
@@ -24,7 +25,7 @@
     dest: /var/www/html/phpmyadmin
     owner: "www-data"
     group: "www-data"
-    mode: "0755"
+    mode: '0755'
     extra_opts: [--strip-components=1]
     creates: /var/www/html/phpmyadmin/index.php
 

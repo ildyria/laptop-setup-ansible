@@ -77,6 +77,7 @@
     dest: "{{ home_dir }}/.config/wal/templates/colors-rofi-dark.rasi"
     owner: "{{ linux_user }}"
     group: "{{ linux_user }}"
+    mode: '0755'
 
 - name: "Install polybar"
   become: true
@@ -101,15 +102,15 @@
     dest: "{{ home_dir }}/.config"
     owner: "{{ linux_user }}"
     group: "{{ linux_user }}"
-    recurse: yes
+    recurse: true
     mode: '0755'
 
 - name: "Copy .local/share/icons"
   ansible.builtin.command: "cp -rv {{ playbook_dir }}/local/share/icons {{ home_dir }}/.local/share/icons"
-  args: 
+  args:
     creates: "{{ home_dir }}/.local/share/icons"
 
 - name: "Copy .local/share/themes"
   ansible.builtin.command: "cp -rv {{ playbook_dir }}/local/share/themes {{ home_dir }}/.local/share/themes"
-  args: 
+  args:
     creates: "{{ home_dir }}/.local/share/themes"

@@ -19,5 +19,3 @@
 
 - name: "Setup zsh"
   ansible.builtin.import_tasks: setup-zsh.yml
-
-
