@@ -37,21 +37,21 @@ set $right semicolon
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1  "1"
-set $ws2  "2"
-set $ws3  "3"
-set $ws4  "4"
-set $ws5  "5"
-set $ws6  "6"
-set $ws7  "7"
-set $ws8  "8"
-set $ws9  "9"
-set $ws0  "0"
-set $wsa  "-"
-set $wsb  "="
+set $ws1  "1:1"
+set $ws2  "2:2"
+set $ws3  "3:3"
+set $ws4  "4:4"
+set $ws5  "5:5"
+set $ws6  "6:6"
+set $ws7  "7:7"
+set $ws8  "8:8"
+set $ws9  "9:9"
+set $ws0  "10:🔐"
+set $wsa  "11:-"
+set $wsb  "12:="
 
 # we need to start on the right space to prevent the [1] from showing.
-exec --no-startup-id "i3-msg 'workspace 1'"
+exec --no-startup-id "i3-msg 'workspace 1:1'"
 
 # font pango:JetBrainsMono Nerd Font 10
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +2% 
@@ -95,8 +95,8 @@ exec --no-startup-id thunderbird
 # start a terminal
 bindsym $alt+Shift+Return exec i3-sensible-terminal
 
-bindsym $alt+Shift+k exec keepass2 ; exec i3-msg 'workspace 0'
-bindsym $win+e exec nautilus ; exec i3-msg 'workspace 9' # windows compatibility
+bindsym $alt+Shift+k exec keepass2 ; exec i3-msg 'workspace 10:🔐'
+bindsym $win+e exec nautilus ; exec i3-msg 'workspace 9:9' # windows compatibility
 bindsym $win+x exec i3lock-fancy-rapid 5 3
 bindsym $win+p exec scrot '%Y-%m-%d_$wx$h_%H:%M:%S.png' -e 'mv $f ~/Pictures/Screenshots/'
 

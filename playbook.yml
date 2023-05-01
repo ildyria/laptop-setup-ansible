@@ -19,5 +19,6 @@
     - { role: 11-signal, become: true, tags: ['signal'] }
     - { role: 12-apache2, become: true, tags: ['web'] }
   tasks:
-    - ansible.builtin.debug:
-      msg: "You are the user {{ lookup('env','USER') }} "
+    - name: "Who am I?"
+      ansible.builtin.debug:
+        msg: "You are the user {{ lookup('env','USER') }} "
