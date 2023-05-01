@@ -18,7 +18,7 @@
     - { role: 10-discord, become: true, tags: ['communication'] }
     - { role: 11-signal, become: true, tags: ['signal'] }
     - { role: 12-apache2-php, become: true, tags: ['apache'] }
-    - { role: 13-go-minica, become: true, tags: ['minica'] }
+    - { role: 13-go-microca, become: true, tags: ['microca'] }
   tasks:
     - name: "Who am I?"
       ansible.builtin.debug:

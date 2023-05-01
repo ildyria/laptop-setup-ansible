@@ -1,0 +1,19 @@
+- name: "Check if directory {{ home_dir }}/.install/minica exists"
+  ansible.builtin.stat:
+    path: "{{ home_dir }}/.install/microca"
+  register: microca_dir
+
+- name: "Clone microca from qbit instead of jsha"
+  ansible.builtin.git:
+    repo: https://github.com/qbit/microca
+    dest: "{{ home_dir }}/.install/microca"
+    depth: 1
+  when: not microca_dir.stat.exists
+
+- name: "Build microca"
+  become: true
+  ansible.builtin.command:
+    cmd: /usr/local/go/bin/go build
+    chdir: "{{ home_dir }}/.install/microca/"
+    creates: "{{ home_dir }}/.install/microca/microca"
+  when: not microca_dir.stat.exists

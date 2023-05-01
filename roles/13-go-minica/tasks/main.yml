@@ -1,3 +1,0 @@
-- name: "Install Go"
-  ansible.builtin.import_tasks: go.yml
-

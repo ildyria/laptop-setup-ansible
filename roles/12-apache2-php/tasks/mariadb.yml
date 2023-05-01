@@ -27,3 +27,9 @@
     mode: "0755"
     extra_opts: [--strip-components=1]
     creates: /var/www/html/phpmyadmin/index.php
+
+- name: "Remove {{ home_dir }}/.install/phpmyadmin.tar.gz"
+  become: true
+  ansible.builtin.file:
+    path: "{{ home_dir }}/.install/phpmyadmin.tar.gz"
+    state: absent

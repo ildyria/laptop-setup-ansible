@@ -18,3 +18,9 @@
     src: "{{ home_dir }}/.install/go.tar.gz"
     dest: /usr/local/
     mode: "0755"
+
+- name: "Remove {{ home_dir }}/.install/go.tar.gz"
+  become: true
+  ansible.builtin.file:
+    path: "{{ home_dir }}/.install/go.tar.gz"
+    state: absent

@@ -1,4 +1,4 @@
-- name: "Create .install directory if it does not exist"
+- name: "Create {{ home_dir }}/.install directory if it does not exist"
   ansible.builtin.file:
     path: "{{ home_dir }}/.install/"
     state: directory
@@ -7,18 +7,18 @@
     mode: '0755'
     recurse: true
 
-- name: "Check if directory {{ home_dir }}/.install/i3lock-fancy-rapid exists"
+- name: "Check if /usr/bin/i3lock-fancy-rapid exists"
   ansible.builtin.stat:
-    path: "{{ home_dir }}/.install/i3lock-fancy-rapid"
-  register: i3lock_fancy_rapid_dir
+    path: "/usr/bin/i3lock-fancy-rapid"
+  register: i3lock_fancy_rapid
 
 # Rather than using i3lock-fancy which is rather slow in the bluring process, we use this version
-- name: "Clone i3lock-fancy-rapid"
+- name: "Clone i3lock-fancy-rapid to {{ home_dir }}/.install/i3lock-fancy-rapid"
   ansible.builtin.git:
     repo: https://github.com/yvbbrjdr/i3lock-fancy-rapid
     dest: "{{ home_dir }}/.install/i3lock-fancy-rapid"
     depth: 1
-  when: not i3lock_fancy_rapid_dir.stat.exists
+  when: not i3lock_fancy_rapid.stat.exists
 
 # Required dependency to compile
 - name: Install dependencies
@@ -36,6 +36,7 @@
   shell:
     cmd: "make"
     chdir: "{{ home_dir }}/.install/i3lock-fancy-rapid"
+  when: not i3lock_fancy_rapid.stat.exists
 
 # Install executable
 - name: "Install i3lock-fancy-rapid"
@@ -44,3 +45,11 @@
     src: "{{ home_dir }}/.install/i3lock-fancy-rapid/i3lock-fancy-rapid"
     dest: "/usr/bin/i3lock-fancy-rapid"
     mode: '0755'
+  when: not i3lock_fancy_rapid.stat.exists
+
+- name: "Remove {{ home_dir }}/.install/i3lock-fancy-rapid"
+  become: true
+  ansible.builtin.file:
+    path: "{{ home_dir }}/.install/i3lock-fancy-rapid"
+    state: absent
+  when: not i3lock_fancy_rapid.stat.exists
