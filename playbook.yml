@@ -17,7 +17,7 @@
     - { role: 09-multimedia, become: true, tags: ['multimedia'] }
     - { role: 10-discord, become: true, tags: ['communication'] }
     - { role: 11-signal, become: true, tags: ['signal'] }
-    - { role: 12-apache2, become: true, tags: ['web'] }
+    - { role: 12-apache2-php, become: true, tags: ['apache'] }
   tasks:
     - name: "Who am I?"
       ansible.builtin.debug:
