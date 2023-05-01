@@ -1,0 +1,31 @@
+- name: "Install FFmpeg, Imagemagick"
+  become: true
+  ansible.builtin.apt:
+    name:
+      - ffmpeg
+      - imagemagick
+    state: latest
+
+- name: "Ensure dependencies are installed."
+  become: true
+  apt:
+    name:
+      - snapd
+    state: present
+
+- name: "Install Spotify"
+  become: true
+  community.general.snap:
+    name: spotify
+    state: present
+
+- name: "Install VLC"
+  become: true
+  community.general.snap:
+    name: vlc
+    state: present
+
+# - name: Install youtube-dl
+#   ansible.builtin.apt:
+#     pkg: youtube-dl
+#     state: latest

@@ -1,0 +1,23 @@
+- name: "Setup urxvt"
+  ansible.builtin.import_tasks: setup-urxvt.yml
+
+- name: "Install common command line tools"
+  become: true
+  ansible.builtin.apt:
+    name:
+      - btop
+      - curl
+      - htop
+      - vim
+      - vim-airline
+      - wget
+      - neofetch
+    state: latest
+
+- name: "Setup git"
+  ansible.builtin.import_tasks: setup-git.yml
+
+- name: "Setup zsh"
+  ansible.builtin.import_tasks: setup-zsh.yml
+
+

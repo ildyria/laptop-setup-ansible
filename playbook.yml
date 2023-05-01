@@ -5,18 +5,19 @@
     home_dir: "{{ lookup('env', 'HOME') }}"
     linux_user: "{{ lookup('env', 'USER') }}"
   roles:
-    - { role: dualboot, become: true, tags: [ 'dualboot' ] }
-    - { role: terminal, become: true, tags: [ 'terminal' ] }
-    - { role: python, become: true, tags: [ 'python' ] }
-    - { role: fonts, become: true, tags: [ 'fonts' ] }
-    - { role: code, become: true, tags: [ 'development' ] }
-    - { role: images, become: true, tags: [ 'images' ] }
-    - { role: browser, become: true, tags: [ 'browser' ] }
-    - { role: multimedia, become: true, tags: [ 'audio', 'multimedia', 'video' ] }
-    - { role: gui, become: true, tags: [ 'gui' ] }
-    - { role: docker, become: true, tags: [ 'development' ] }
-    - { role: keepass2, become: true, tags: [ 'security' ] }
-    - { role: discord, become: true, tags: [ 'communication' ] }
-    - { role: signal, become: true, tags: [ 'signal' ] }
+    - { role: 00-dualboot, become: true, tags: ['dualboot'] }
+    - { role: 01-terminal, become: true, tags: ['terminal'] }
+    - { role: 02-python, become: true, tags: ['python'] }
+    - { role: 03-fonts, become: true, tags: ['fonts'] }
+    - { role: 04-gui, become: true, tags: ['gui'] }
+    - { role: 05-code, become: true, tags: ['code'] }
+    - { role: 06-browser, become: true, tags: ['browser'] }
+    - { role: 07-docker, become: true, tags: ['docker'] }
+    - { role: 08-keepass2, become: true, tags: ['security'] }
+    - { role: 09-multimedia, become: true, tags: ['multimedia'] }
+    - { role: 10-discord, become: true, tags: ['communication'] }
+    - { role: 11-signal, become: true, tags: ['signal'] }
+    - { role: 12-apache2, become: true, tags: ['web'] }
   tasks:
-    - debug: msg="You are the user {{ lookup('env','USER') }}"
+    - ansible.builtin.debug:
+      msg: "You are the user {{ lookup('env','USER') }} "
