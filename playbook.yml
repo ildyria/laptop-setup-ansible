@@ -22,4 +22,4 @@
   tasks:
     - name: "Who am I?"
       ansible.builtin.debug:
-        msg: "You are the user {{ lookup('env','USER') }}"
+        msg: You are the user {{ lookup("env", "USER") }}
