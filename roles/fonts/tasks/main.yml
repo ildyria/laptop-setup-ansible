@@ -7,34 +7,19 @@
     mode: '0755'
     recurse: true
 
-- name : "Install fonts deja vu"
-  become: true
+- name: Ensure Fonts are installed.
   ansible.builtin.apt:
-    pkg: fonts-dejavu
-    state: latest
-
-- name: install fonts-jetbrains-mono
-  become: true
-  ansible.builtin.apt:
-    pkg: fonts-jetbrains-mono
-    state: latest
-
-- name: install fonts-noto
-  become: true
-  ansible.builtin.apt:
-    pkg: fonts-noto
-    state: latest
-
-- name: install fonts-cantarell
-  become: true
-  ansible.builtin.apt:
-    pkg: fonts-cantarell
+    name:
+      - fonts-dejavu
+      - fonts-jetbrains-mono
+      - fonts-noto
+      - fonts-cantarell
     state: latest
 
 - name: "Check if directory {{ home_dir }}/.install/nerd-fonts exists"
   ansible.builtin.stat:
     path: "{{ home_dir }}/.install/nerd-fonts"
-  register: nerd_fonts_dir
+  register: install_nerd_fonts_dir
 
 - name: "Clone Nerd Fonts repo to {{ home_dir }}/.install/nerd-fonts"
   ansible.builtin.git:
@@ -42,17 +27,25 @@
     depth: 1
     dest: "{{ home_dir }}/.install/nerd-fonts"
     update: no
-  when: not nerd_fonts_dir.stat.exists
+  when: not install_nerd_fonts_dir.stat.exists
+
+- name: "Check if directory /usr/local/share/fonts/NerdFonts exists"
+  ansible.builtin.stat:
+    path: "/usr/local/share/fonts/NerdFonts"
+  register: nerd_fonts_dir
 
 - name: "Execute font installation" 
   become: true
   shell:
     cmd: "bash install.sh -S"
     chdir: "{{ home_dir }}/.install/nerd-fonts/"
+  when: not nerd_fonts_dir.stat.exists
 
+# Only rebuild cache if we actually insalled the Nerd Fonts
 - name: "rebuild font cache"
   become_user: "{{ linux_user }}"
   ansible.builtin.command: "fc-cache -fv"
+  when: not nerd_fonts_dir.stat.exists
 
 - name: "Update permissions"
   ansible.builtin.file:

@@ -15,7 +15,8 @@
     - { role: multimedia, become: true, tags: [ 'audio', 'multimedia', 'video' ] }
     - { role: gui, become: true, tags: [ 'gui' ] }
     - { role: docker, become: true, tags: [ 'development' ] }
-    - { role: keepass2, become: true, tags: [ 'keepass2' ] }
-    - { role: discord, become: true, tags: [ 'discord' ] }
+    - { role: keepass2, become: true, tags: [ 'security' ] }
+    - { role: discord, become: true, tags: [ 'communication' ] }
+    - { role: signal, become: true, tags: [ 'signal' ] }
   tasks:
     - debug: msg="You are the user {{ lookup('env','USER') }}"
