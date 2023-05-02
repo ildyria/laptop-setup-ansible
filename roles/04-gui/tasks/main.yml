@@ -64,7 +64,6 @@
     group: '{{ linux_user }}'
     mode: '0755'
 
-
 - name: Copy i3 config
   ansible.builtin.command: cp -r {{ playbook_dir }}/templates/gui/i3 {{ config_dir }}/
   args:

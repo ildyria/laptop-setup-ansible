@@ -1,5 +1,15 @@
 # code: language=ansible
 ---
+- name: Fail if missing variables
+  ansible.builtin.fail:
+    msg: Bailing out. Make sure all variables are defined
+  when: site_url is undefined
+    or site_root_dir is undefined
+    or site_public_dir is undefined
+    or site_dir_conf is undefined
+    or site_ssl_conf is undefined
+    or site_cert_dir is undefined
+
 - name: Add {{ site_url }} to host file
   become: true
   ansible.builtin.lineinfile:
