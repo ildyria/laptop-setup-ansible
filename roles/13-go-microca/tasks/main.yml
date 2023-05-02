@@ -1,7 +1,7 @@
 ---
 - name: Create .install directory if it does not exist
   ansible.builtin.file:
-    path: '{{ home_dir }}/.install/'
+    path: '{{ install_dir }}'
     state: directory
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
@@ -9,7 +9,7 @@
     recurse: true
 
 - name: Install Go
-  ansible.builtin.import_tasks: go.yml
+  ansible.builtin.import_tasks: 0-go.yml
 
 - name: Install microca
-  ansible.builtin.import_tasks: microca.yml
+  ansible.builtin.import_tasks: 1-microca.yml

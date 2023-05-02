@@ -1,0 +1,20 @@
+---
+- name: Check if exists {{ microca_dir }}
+  ansible.builtin.stat:
+    path: '{{ microca_dir }}'
+  register: microca_dir
+
+- name: Clone {{ microca_url }}
+  ansible.builtin.git:
+    repo: '{{ microca_url }}'
+    dest: '{{ microca_dir }}'
+    depth: 1
+  when: not microca_dir.stat.exists
+
+- name: Build microca
+  become: true
+  ansible.builtin.command:
+    cmd: '{{ go_bin }} build'
+    chdir: '{{ microca_dir }}/'
+    creates: '{{ microca_dir }}/microca'
+  when: not microca_dir.stat.exists

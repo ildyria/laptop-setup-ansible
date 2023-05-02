@@ -3,27 +3,27 @@
 - name: Remove previous go installation
   become: true
   ansible.builtin.file:
-    path: /usr/local/go
+    path: '{{ go_dir }}'
     state: absent
 
 # Get go.
-- name: Download go1.20.3.linux-amd64.tar.gz
+- name: Download {{ go_url }}
   ansible.builtin.get_url:
-    url: https://go.dev/dl/go1.20.3.linux-amd64.tar.gz
-    dest: '{{ home_dir }}/.install/go.tar.gz'
+    url: '{{ go_url }}'
+    dest: '{{ go_tar }}'
     mode: '0644'
 
 # Extract
-- name: Extract go.tar.gz into /usr/local/go
+- name: Extract go.tar.gz into {{ go_dir }}
   become: true
   ansible.builtin.unarchive:
-    src: '{{ home_dir }}/.install/go.tar.gz'
+    src: '{{ go_tar }}'
     dest: /usr/local/
     mode: '0755'
 
-- name: Remove {{ home_dir }}/.install/go.tar.gz
+- name: Remove {{ go_tar }}
   become: true
   ansible.builtin.file:
-    path: '{{ home_dir }}/.install/go.tar.gz'
+    path: '{{ go_tar }}'
     state: absent
     mode: '0755'
