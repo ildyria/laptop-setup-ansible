@@ -42,6 +42,7 @@
       - docker-ce-cli
       - docker-compose-plugin
     state: latest
+  notify: Restart docker
 
 - name: Run "apt-get update"
   become: true
@@ -62,10 +63,3 @@
   ansible.builtin.user:
     name: '{{ linux_user }}'
     group: 'docker'
-
-- name: Ensure Docker is started and enabled at boot.
-  become: true
-  ansible.builtin.service:
-    name: 'docker'
-    state: started
-    enabled: true
