@@ -12,6 +12,7 @@
   ansible.builtin.import_tasks: '{{ role_path }}/tasks/lychee-dev/4-artisan.yml'
 
 - name: Update owner & permissions of {{ home_dir }}/Documents/Projects/Lychee
+  become: true
   ansible.builtin.file:
     path: '{{ home_dir }}/Documents/Projects/Lychee'
     owner: '{{ linux_user }}'
