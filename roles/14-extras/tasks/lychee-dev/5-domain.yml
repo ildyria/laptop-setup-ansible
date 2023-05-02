@@ -16,6 +16,7 @@
     cmd: ./microca -domains lychee.test
     chdir: '{{ home_dir }}/.install/microca/'
     creates: '{{ home_dir }}/.install/microca/lychee.test'
+  register: lychee_test_cert
 
 - name: Fix access of {{ home_dir }}/.install/microca/lychee.test
   ansible.builtin.file:
@@ -25,6 +26,7 @@
     group: '{{ linux_user }}'
     mode: '0750'
     recurse: true
+  when: lychee_test_cert is success
 
 - name: Install lychee.test private key
   become: true
@@ -32,6 +34,7 @@
     src: '{{ home_dir }}/.install/microca/lychee.test/key.pem'
     dest: '/etc/ssl/private/lychee.test.key'
     mode: '0640'
+  when: lychee_test_cert is success
 
 - name: Install lychee.test certificate
   become: true
@@ -39,6 +42,7 @@
     src: '{{ home_dir }}/.install/microca/lychee.test/cert.pem'
     dest: '/etc/ssl/certs/lychee.test.pem'
     mode: '0777'
+  when: lychee_test_cert is success
 
 - name: Install lychee.test certificate
   become: true
@@ -46,6 +50,7 @@
     src: '{{ playbook_dir }}/templates/apache2/lychee-test-ssl.conf'
     dest: '/etc/apache2/sites-available/lychee-test-ssl.conf'
     mode: '0644'
+  when: lychee_test_cert is success
 
 - name: Enable lychee.test
   become: true
@@ -81,4 +86,26 @@
     cmd: update-ca-certificates
   when: result_import_ca is changed
 
-- name: Import 
+- name: Install libnss3-tools
+  become: true
+  ansible.builtin.apt:
+    pkg: libnss3-tools
+    state: present
+
+- name: Import CA into firefox & chrome
+  ansible.builtin.shell: |
+    ### For cert8 - Thunderbird
+    for certDB in $(find {{ home_dir }}/ -name "cert8.db")
+    do
+        certdir=$(dirname ${certDB});
+        certutil -A -n "microca root" -t "TCu,Cu,Tu" -i "{{ home_dir }}/.install/microca/microca.pem" -d dbm:${certdir}
+    done
+
+    ### For cert9 (SQL - Chrome)
+    for certDB in $(find {{ home_dir }}/ -name "cert9.db")
+    do
+        certdir=$(dirname ${certDB});
+        certutil -A -n "microca root" -t "TCu,Cu,Tu" -i "{{ home_dir }}/.install/microca/microca.pem" -d sql:${certdir}
+    done
+  args:
+    executable: /usr/bin/bash

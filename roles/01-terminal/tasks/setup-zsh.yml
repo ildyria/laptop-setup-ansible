@@ -8,13 +8,13 @@
 - name: Update shell of {{ linux_user }}
   become: true
   ansible.builtin.user:
-    name: {{ linux_user }}
+    name: '{{ linux_user }}'
     shell: /usr/bin/zsh
 
 - name: Update shell of root
   become: true
   ansible.builtin.user:
-    name: root
+    name: 'root'
     shell: /usr/bin/zsh
 
 - name: Check if directory {{ home_dir }}/.oh-my-zsh exists

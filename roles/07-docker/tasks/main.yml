@@ -52,7 +52,7 @@
 - name: Ensure group "docker" exists
   become: true
   ansible.builtin.group:
-    name: docker
+    name: 'docker'
     state: present
 
 - name: Add user "{{ linux_user }}" to the docker group
@@ -60,12 +60,12 @@
   # https://docs.docker.com/engine/install/linux-postinstall/
   become: true
   ansible.builtin.user:
-    name: {{ linux_user }}
-    group: docker
+    name: '{{ linux_user }}'
+    group: 'docker'
 
 - name: Ensure Docker is started and enabled at boot.
   become: true
   ansible.builtin.service:
-    name: docker
+    name: 'docker'
     state: started
     enabled: true
