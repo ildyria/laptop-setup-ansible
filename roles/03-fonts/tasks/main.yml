@@ -1,6 +1,5 @@
 ---
 - name: Create not exist {{ install_dir }}
-  become: true
   ansible.builtin.file:
     path: '{{ install_dir }}/'
     state: directory

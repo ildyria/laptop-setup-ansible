@@ -1,7 +1,0 @@
----
-# Install
-install_dir: '{{ home_dir }}/.install'
-
-# Lychee
-project_dir: '{{ home_dir }}/Documents/Projects'
-lychee_dir: '{{ project_dir }}/Lychee'

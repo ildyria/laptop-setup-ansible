@@ -1,0 +1,17 @@
+---
+# Projects
+project_dir: '{{ home_dir }}/Documents/Projects'
+
+# Lychee
+lychee_dir: '{{ project_dir }}/Lychee'
+lychee_url: 'lychee.test'
+
+lychee_db_name: 'lychee'
+lychee_db_user: 'lychee'
+lychee_db_password: 'password'
+
+# Microca
+microca_dir: '{{ install_dir }}/microca'
+microca_root_ca: '{{ microca_dir }}/microca.pem'
+lychee_cert_dir: '{{ microca_dir }}/{{ lychee_url }}'
+

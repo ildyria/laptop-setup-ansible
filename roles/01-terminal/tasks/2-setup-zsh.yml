@@ -47,7 +47,6 @@
   when: not oh_my_zsh_dir_exists.stat.exists
 
 - name: Set up .zshrc for root
-  become: true
   ansible.builtin.template:
     src: 'terminal/.zshrc.j2'
     dest: '/root/.zshrc'

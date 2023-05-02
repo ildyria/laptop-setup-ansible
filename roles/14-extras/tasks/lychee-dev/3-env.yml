@@ -1,119 +1,19 @@
 ---
+- name: Install .env file
+  ansible.builtin.template:
+    src: 'lychee/.env.j2'
+    dest: '{{ lychee_dir }}/.env'
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
+
 - name: Install Lychee dependencies (with dev)
   ansible.builtin.command:
     cmd: composer install
-    chdir: '{{ home_dir }}/Documents/Projects/Lychee'
-    creates: '{{ home_dir }}/Documents/Projects/Lychee/vendor'
-
-- name: Update .env file -- Set ENV
-  become: true
-  ansible.builtin.lineinfile:
-    path: '{{ home_dir }}/Documents/Projects/Lychee/.env'
-    regexp: 'APP_ENV=production'
-    line: 'APP_ENV=dev'
-    state: present
-    backup: true
-
-- name: Update .env file -- Set DEBUG
-  become: true
-  ansible.builtin.lineinfile:
-    path: '{{ home_dir }}/Documents/Projects/Lychee/.env'
-    regexp: 'APP_DEBUG=false'
-    line: 'APP_DEBUG=true'
-    state: present
-    backup: true
-
-- name: Update .env file -- SET URL
-  become: true
-  ansible.builtin.lineinfile:
-    path: '{{ home_dir }}/Documents/Projects/Lychee/.env'
-    regexp: 'APP_URL=https://localhost'
-    line: 'APP_URL=https://lychee.test'
-    state: present
-    backup: true
-
-- name: Update .env file -- SET HTTPS
-  become: true
-  ansible.builtin.lineinfile:
-    path: '{{ home_dir }}/Documents/Projects/Lychee/.env'
-    regexp: 'APP_FORCE_HTTPS=false'
-    line: 'APP_FORCE_HTTPS=true'
-    state: present
-    backup: true
-
-- name: Update .env file -- SET DEBUG BAR
-  become: true
-  ansible.builtin.lineinfile:
-    path: '{{ home_dir }}/Documents/Projects/Lychee/.env'
-    regexp: 'DEBUGBAR_ENABLED=false'
-    line: 'DEBUGBAR_ENABLED=true'
-    state: present
-    backup: true
-
-- name: Update .env file -- SET LIVEWIRE
-  become: true
-  ansible.builtin.lineinfile:
-    path: '{{ home_dir }}/Documents/Projects/Lychee/.env'
-    regexp: 'LIVEWIRE_ENABLED=false'
-    line: 'LIVEWIRE_ENABLED=true'
-    state: present
-    backup: true
-
-- name: Update .env file -- SET DB
-  become: true
-  ansible.builtin.lineinfile:
-    path: '{{ home_dir }}/Documents/Projects/Lychee/.env'
-    regexp: 'DB_CONNECTION=sqlite'
-    line: 'DB_CONNECTION=mysql'
-    state: present
-    backup: true
-
-- name: Update .env file -- SET DB
-  become: true
-  ansible.builtin.lineinfile:
-    path: '{{ home_dir }}/Documents/Projects/Lychee/.env'
-    regexp: 'DB_HOST='
-    line: 'DB_HOST=localhost'
-    state: present
-    backup: true
-
-- name: Update .env file -- SET DB
-  become: true
-  ansible.builtin.lineinfile:
-    path: '{{ home_dir }}/Documents/Projects/Lychee/.env'
-    regexp: 'DB_PORT='
-    line: 'DB_PORT=3306'
-    state: present
-    backup: true
-
-- name: Update .env file -- SET DB
-  become: true
-  ansible.builtin.lineinfile:
-    path: '{{ home_dir }}/Documents/Projects/Lychee/.env'
-    regexp: 'DB_DATABASE='
-    line: 'DB_DATABASE=lychee'
-    state: present
-    backup: true
-
-- name: Update .env file -- SET DB
-  become: true
-  ansible.builtin.lineinfile:
-    path: '{{ home_dir }}/Documents/Projects/Lychee/.env'
-    regexp: 'DB_USERNAME='
-    line: 'DB_USERNAME=lychee'
-    state: present
-    backup: true
-
-- name: Update .env file -- SET DB
-  become: true
-  ansible.builtin.lineinfile:
-    path: '{{ home_dir }}/Documents/Projects/Lychee/.env'
-    regexp: 'DB_PASSWORD='
-    line: 'DB_PASSWORD=password'
-    state: present
-    backup: true
+    chdir: '{{ lychee_dir }}'
+    creates: '{{ lychee_dir }}/vendor'
 
 - name: Generate security key
   ansible.builtin.command:
     cmd: php artisan key:generate
-    chdir: '{{ home_dir }}/Documents/Projects/Lychee'
+    chdir: '{{ lychee_dir }}'

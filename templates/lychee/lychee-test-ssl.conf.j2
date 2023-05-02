@@ -1,7 +1,7 @@
 <VirtualHost *:443>
-    ServerName lychee.test
+    ServerName {{ lychee_url }}
 
-	DocumentRoot /home/biv/Documents/Projects/Lychee/public
+	DocumentRoot {{ lychee_dir }}/public
 
 	# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
 	# error, crit, alert, emerg.
@@ -28,8 +28,8 @@
 	#   /usr/share/doc/apache2/README.Debian.gz for more info.
 	#   If both key and certificate are stored in the same file, only the
 	#   SSLCertificateFile directive is needed.
-	SSLCertificateFile      /etc/ssl/certs/lychee.test.pem
-	SSLCertificateKeyFile   /etc/ssl/private/lychee.test.key
+	SSLCertificateFile      /etc/ssl/certs/{{ lychee_url }}.pem
+	SSLCertificateKeyFile   /etc/ssl/private/{{ lychee_url }}.key
 
 	#   Server Certificate Chain:
 	#   Point SSLCertificateChainFile at a file containing the

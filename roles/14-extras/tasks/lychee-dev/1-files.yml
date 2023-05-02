@@ -1,20 +1,20 @@
 ---
-- name: Create {{ home_dir }}/Documents/Projects directory if it does not exist
+- name: Create if not exists {{ project_dir }}
   ansible.builtin.file:
-    path: '{{ home_dir }}/Documents/Projects'
+    path: '{{ project_dir }}'
     state: directory
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
     mode: '0755'
     recurse: true
 
-- name: Check if directory {{ home_dir }}/Documents/Projects/Lychee exists
+- name: Check if exists {{ lychee_dir }}
   ansible.builtin.stat:
-    path: '{{ home_dir }}/Documents/Projects/Lychee'
-  register: lychee_dir
+    path: '{{ lychee_dir }}'
+  register: lychee_dir_exists
 
 - name: Clone Lychee
   ansible.builtin.git:
     repo: https://github.com/LycheeOrg/Lychee
-    dest: '{{ home_dir }}/Documents/Projects/Lychee'
-  when: not lychee_dir.stat.exists
+    dest: '{{ lychee_dir }}'
+  when: not lychee_dir_exists.stat.exists
