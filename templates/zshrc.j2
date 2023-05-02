@@ -1,9 +1,5 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-#export PATH=/opt/riscv/bin:$PATH
-
 #Path to your oh-my-zsh installation.
-export ZSH=~/.oh-my-zsh
+export ZSH={{ oh_my_zsh_dir }}
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -20,7 +16,7 @@ ZSH_THEME="avit"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -122,11 +118,6 @@ find ~/.ssh/ -mindepth 1 -maxdepth 1 -name 'id_ed25519*' ! -name '*.pub' -print0
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
 alias md="mkdir"
 alias m="make"
 alias makemake="make"
@@ -134,8 +125,6 @@ alias gtree='git log --oneline --decorate --all --graph'
 alias fw='sudo /etc/init.d/iptables'
 
 alias settings='gnome-control-center'
-# alias startvpn='sudo openvpn openvpn-science.ovpn'
-alias tcolors='~/bin/colors.sh'
 
 alias rzsh='source ~/.zshrc'
 
@@ -150,19 +139,21 @@ alias -s pdf='evince'
 
 alias rmdup='rm *\(*\).*'
 
-# Add local 'pip' to PATH:
-# (In your .bashrc, .zshrc etc)
+# Add local 'go' to PATH:
+export PATH="${PATH}:/usr/local/go/bin"
+
+# Add local 'bin' to PATH:
 export PATH="${PATH}:${HOME}/.local/bin/"
-export PATH=${PATH}:/usr/local/go/bin
+
+# Add 'sbin' to PATH:
+export PATH="${PATH}:/sbin"
+export PATH="${PATH}:/usr/sbin"
+export PATH="${PATH}:/usr/local/sbin"
 
 alias commit='git commit -am "$(curl -s https://whatthecommit.com/index.txt)"'
 
 # export PATH=~/bin:$PATH:/bin:/usr/bin:/usr/local/bin:/sbin:/usr/sbin:/usr/local/sbin
-# export PATH=$PATH:/home/biv/Documents/Personnal/eclipse/bin/x86_64_linux
-# export PATH=~/Documents/fstar/bin:$PATH
 
-# alias svn=~/.dotfiles/bin/svn-color.py
 # export GTK_IM_MODULE=xim
-# export PATH=/usr/local/go/bin:$PATH
 
 # export RISCV=/opt/riscv/

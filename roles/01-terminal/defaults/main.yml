@@ -5,10 +5,3 @@ git_config_file: '{{ home_dir }}/.config/git/config'
 
 # Oh My ZSH directory
 oh_my_zsh_dir: '/usr/share/oh-my-zsh'
-
-# Install
-install_dir: '{{ home_dir }}/.install'
-
-# Lychee
-project_dir: '{{ home_dir }}/Documents/Projects'
-lychee_dir: '{{ project_dir }}/Lychee'

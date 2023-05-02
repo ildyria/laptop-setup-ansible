@@ -10,11 +10,6 @@
   register: updated_grub
   notify: Update grub
 
-# - name: Update grub
-#   become: true
-#   ansible.builtin.command: update-grub
-#   when: updated_grub is changed
-
 - name: Install ntp
   become: true
   ansible.builtin.apt:

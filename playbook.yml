@@ -4,23 +4,26 @@
   handlers:
     - name: 'Import handlers'
       ansible.builtin.import_tasks: handlers/main.yml
+  vars:
+    home_dir: '{{ lookup("env", "HOME") }}'
+    linux_user: '{{ lookup("env", "USER") }}'
   roles:
-    - {role: 00-dualboot-time, become: true, tags: ['init']}
-    - {role: 01-terminal, become: true, tags: ['terminal']}
-    - {role: 02-python, become: true, tags: ['python']}
-    - {role: 03-fonts, become: true, tags: ['fonts']}
-    - {role: 04-gui, become: true, tags: ['gui']}
-    - {role: 05-code, become: true, tags: ['code']}
-    - {role: 06-browser, become: true, tags: ['browser']}
-    - {role: 07-docker, become: true, tags: ['docker']}
-    - {role: 08-keepass2, become: true, tags: ['security']}
-    - {role: 09-multimedia, become: true, tags: ['multimedia']}
-    - {role: 10-discord, become: true, tags: ['communication']}
-    - {role: 11-signal, become: true, tags: ['signal']}
-    - {role: 12-apache2-php, become: true, tags: ['apache']}
-    - {role: 13-go-microca, become: true, tags: ['microca']}
+    - {role: 00-dualboot-time, tags: ['init']}
+    - {role: 01-terminal, tags: ['terminal']}
+    - {role: 02-python, tags: ['python']}
+    - {role: 03-fonts, tags: ['fonts']}
+    - {role: 04-gui, tags: ['gui']}
+    - {role: 05-code, tags: ['code']}
+    - {role: 06-browser, tags: ['browser']}
+    - {role: 07-docker, tags: ['docker']}
+    - {role: 08-keepass2, tags: ['security']}
+    - {role: 09-multimedia, tags: ['multimedia']}
+    - {role: 10-discord, tags: ['communication']}
+    - {role: 11-signal, tags: ['signal']}
+    - {role: 12-apache2-php, tags: ['apache']}
+    - {role: 13-go-microca, tags: ['microca']}
 
-    - {role: 14-extras, become: true, tags: ['extras']}
+    - {role: 14-extras, tags: ['extras']}
   tasks:
     - name: Who am I?
       ansible.builtin.debug:

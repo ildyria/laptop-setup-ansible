@@ -5,9 +5,9 @@
     pkg: git
     state: latest
 
-- name: Create .config/git directory if it does not exist
+- name: Create {{ git_config_dir }} directory if it does not exist
   ansible.builtin.file:
-    path: '{{ home_dir }}/.config/git'
+    path: '{{ git_config_dir }}'
     state: directory
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
@@ -16,7 +16,7 @@
 - name: Set up git config
   ansible.builtin.template:
     src: 'gitconfig'
-    dest: '{{ home_dir }}/.config/git/config'
+    dest: '{{ git_config_file }}'
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
     mode: '0755'

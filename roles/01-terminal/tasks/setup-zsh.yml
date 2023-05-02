@@ -17,44 +17,48 @@
     name: 'root'
     shell: /usr/bin/zsh
 
-- name: Check if directory {{ home_dir }}/.oh-my-zsh exists
+- name: Check if directory {{ oh_my_zsh_dir }} exists
   ansible.builtin.stat:
-    path: '{{ home_dir }}/.oh-my-zsh'
-  register: oh_my_zsh_dir
+    path: '{{ oh_my_zsh_dir }}'
+  register: oh_my_zsh_dir_exists
 
-- name: Clone oh-my-zsh
+- name: Clone oh-my-zsh to {{ oh_my_zsh_dir }}
+  become: true
   ansible.builtin.git:
     repo: https://github.com/ohmyzsh/ohmyzsh
-    dest: '{{ home_dir }}/.oh-my-zsh'
+    dest: '{{ oh_my_zsh_dir }}'
     depth: 1
-  when: not oh_my_zsh_dir.stat.exists
+  when: not oh_my_zsh_dir_exists.stat.exists
 
 - name: Clone zsh-autosuggestions
+  become: true
   ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-autosuggestions
-    dest: '{{ home_dir }}/.oh-my-zsh/plugins/zsh-autosuggestions'
+    dest: '{{ oh_my_zsh_dir }}/plugins/zsh-autosuggestions'
     depth: 1
-  when: not oh_my_zsh_dir.stat.exists
+  when: not oh_my_zsh_dir_exists.stat.exists
 
 - name: Clone zsh-syntax-highlighting
+  become: true
   ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting
-    dest: '{{ home_dir }}/.oh-my-zsh/plugins/zsh-syntax-highlighting'
+    dest: '{{ oh_my_zsh_dir }}/plugins/zsh-syntax-highlighting'
     depth: 1
-  when: not oh_my_zsh_dir.stat.exists
+  when: not oh_my_zsh_dir_exists.stat.exists
 
-- name: Set up zshrc
+- name: Set up .zshrc for root
+  become: true
   ansible.builtin.template:
-    src: 'zshrc'
+    src: 'zshrc.j2'
+    dest: '/root/.zshrc'
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
+
+- name: Set up .zshrc for {{ linux_user }}
+  ansible.builtin.template:
+    src: 'zshrc.j2'
     dest: '{{ home_dir }}/.zshrc'
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
     mode: '0755'
-
-- name: Set up permissions oh-my-zsh
-  ansible.builtin.file:
-    dest: '{{ home_dir }}/.oh-my-zsh'
-    owner: '{{ linux_user }}'
-    group: '{{ linux_user }}'
-    mode: '0755'
-    recurse: true
