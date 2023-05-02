@@ -20,6 +20,12 @@
     cmd: a2enmod ssl
   notify: Restart apache2
 
+- name: Enable the Apache2 module ssl
+  become: true
+  ansible.builtin.command:
+    cmd: a2enmod rewrite
+  notify: Restart apache2
+
 - name: Install php
   ansible.builtin.import_tasks: php.yml
 

@@ -44,19 +44,38 @@
     mode: '0777'
   when: lychee_test_cert is success
 
-- name: Install lychee.test certificate
+- name: Add lychee.test to conf-available
+  become: true
+  ansible.builtin.copy:
+    src: '{{ playbook_dir }}/templates/apache2/lychee.conf'
+    dest: '/etc/apache2/conf-available/lychee.conf'
+    mode: '0644'
+  when: lychee_test_cert is success
+  register: lychee_conf
+
+- name: Enable conf lychee.test
+  become: true
+  ansible.builtin.command:
+    cmd: a2enconf lychee.conf
+    creates: '/etc/apache2/conf-enabled/lychee.conf'
+  when: lychee_conf is success
+  notify: Restart apache2
+
+- name: Add lychee.test to sites-available
   become: true
   ansible.builtin.copy:
     src: '{{ playbook_dir }}/templates/apache2/lychee-test-ssl.conf'
     dest: '/etc/apache2/sites-available/lychee-test-ssl.conf'
     mode: '0644'
   when: lychee_test_cert is success
+  register: lychee_site
 
-- name: Enable lychee.test
+- name: Enable site lychee.test
   become: true
   ansible.builtin.command:
     cmd: a2ensite lychee-test-ssl.conf
     creates: '/etc/apache2/sites-enabled/lychee-test-ssl.conf'
+  when: lychee_site is success
   notify: Restart apache2
 
 - name: Fix access of {{ home_dir }}/.install/microca/microca.pem
@@ -109,3 +128,4 @@
     done
   args:
     executable: /usr/bin/bash
+
