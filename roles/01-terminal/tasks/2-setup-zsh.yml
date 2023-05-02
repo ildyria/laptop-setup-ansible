@@ -49,15 +49,16 @@
 - name: Set up .zshrc for root
   become: true
   ansible.builtin.template:
-    src: 'zshrc.j2'
+    src: 'terminal/.zshrc.j2'
     dest: '/root/.zshrc'
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
     mode: '0755'
 
 - name: Set up .zshrc for {{ linux_user }}
+  become: true
   ansible.builtin.template:
-    src: 'zshrc.j2'
+    src: 'terminal/.zshrc.j2'
     dest: '{{ home_dir }}/.zshrc'
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'

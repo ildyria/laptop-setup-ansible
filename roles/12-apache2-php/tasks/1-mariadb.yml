@@ -1,0 +1,37 @@
+---
+- name: Install mariaDB
+  become: true
+  ansible.builtin.apt:
+    name:
+      - mariadb-server
+    state: latest
+
+- name: Download phpMyAdmin-latest-english.tar.gz
+  ansible.builtin.get_url:
+    url: '{{ phpmyadmin_url }}'
+    dest: '{{ phpmyadmin_tar_gz }}'
+    mode: '0755'
+
+- name: Create directory {{ phpmyadmin_www }}
+  ansible.builtin.file:
+    path: '{{ phpmyadmin_www }}'
+    state: directory
+    owner: 'www-data'
+    group: 'www-data'
+    mode: '0755'
+
+- name: Extract phpmyadmin.tar.gz into {{ phpmyadmin_www }}
+  ansible.builtin.unarchive:
+    src: '{{ phpmyadmin_tar_gz }}'
+    dest: '{{ phpmyadmin_www }}'
+    owner: 'www-data'
+    group: 'www-data'
+    mode: '0755'
+    extra_opts: [--strip-components=1]
+    creates: '{{ phpmyadmin_www }}/index.php'
+
+- name: Remove {{ phpmyadmin_tar_gz }}
+  become: true
+  ansible.builtin.file:
+    path: '{{ phpmyadmin_tar_gz }}'
+    state: absent

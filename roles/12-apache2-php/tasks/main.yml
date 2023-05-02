@@ -27,7 +27,7 @@
   notify: Restart apache2
 
 - name: Install php
-  ansible.builtin.import_tasks: php.yml
+  ansible.builtin.import_tasks: 0-php.yml
 
 - name: Install mariadb
-  ansible.builtin.import_tasks: mariadb.yml
+  ansible.builtin.import_tasks: 1-mariadb.yml

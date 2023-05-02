@@ -1,9 +1,6 @@
 ---
 - name: Ansible Playbook to setup a new laptop
   hosts: laptop
-  handlers:
-    - name: 'Import handlers'
-      ansible.builtin.import_tasks: handlers/main.yml
   vars:
     home_dir: '{{ lookup("env", "HOME") }}'
     linux_user: '{{ lookup("env", "USER") }}'

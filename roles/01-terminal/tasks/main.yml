@@ -1,6 +1,6 @@
 ---
 - name: Setup urxvt
-  ansible.builtin.import_tasks: setup-urxvt.yml
+  ansible.builtin.import_tasks: 0-setup-urxvt.yml
 
 - name: Install common command line tools
   become: true
@@ -16,7 +16,7 @@
     state: latest
 
 - name: Setup git
-  ansible.builtin.import_tasks: setup-git.yml
+  ansible.builtin.import_tasks: 1-setup-git.yml
 
 - name: Setup zsh
-  ansible.builtin.import_tasks: setup-zsh.yml
+  ansible.builtin.import_tasks: 2-setup-zsh.yml

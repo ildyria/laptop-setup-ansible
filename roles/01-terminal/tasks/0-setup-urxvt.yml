@@ -12,8 +12,9 @@
     path: /usr/bin/urxvt
 
 - name: Set up Xdefaults
+  become: true
   ansible.builtin.template:
-    src: 'Xdefaults'
+    src: 'terminal/.Xdefaults'
     dest: '{{ home_dir }}/.Xdefaults'
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'

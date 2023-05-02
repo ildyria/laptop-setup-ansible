@@ -1,11 +1,4 @@
 ---
-# Git config directory
-git_config_dir: '{{ home_dir }}/.config/git'
-git_config_file: '{{ home_dir }}/.config/git/config'
-
-# Oh My ZSH directory
-oh_my_zsh_dir: '/usr/share/oh-my-zsh'
-
 # Install
 install_dir: '{{ home_dir }}/.install'
 
