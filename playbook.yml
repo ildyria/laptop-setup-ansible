@@ -19,8 +19,9 @@
     - {role: 11-signal, tags: ['signal']}
     - {role: 12-apache2-php, tags: ['apache']}
     - {role: 13-go-microca, tags: ['microca']}
+    - {role: 14-latex, tags: ['latex']}
 
-    - {role: 14-extras, tags: ['extras']}
+    - {role: 15-extras, tags: ['extras']}
   tasks:
     - name: Who am I?
       ansible.builtin.debug:

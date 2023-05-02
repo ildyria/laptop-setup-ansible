@@ -1,0 +1,7 @@
+---
+- name: Install LaTeX
+  become: true
+  ansible.builtin.apt:
+    state: present
+    name:
+      - texlive-full
