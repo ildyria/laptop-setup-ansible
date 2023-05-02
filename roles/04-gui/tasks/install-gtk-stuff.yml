@@ -7,7 +7,7 @@
 
 - name: Create gtk-3.0 directory if it does not exist
   ansible.builtin.file:
-    path: '{{ home_dir }}/.config/gtk-3.0'
+    path: '{{ config_dir }}/gtk-3.0'
     state: directory
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
@@ -16,14 +16,14 @@
 - name: Set up GTK3
   ansible.builtin.template:
     src: 'gtk3config'
-    dest: '{{ home_dir }}/.config/gtk-3.0/settings.ini'
+    dest: '{{ config_dir }}/gtk-3.0/settings.ini'
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
     mode: '0755'
 
 - name: Create gtk-4.0 directory if it does not exist
   ansible.builtin.file:
-    path: '{{ home_dir }}/.config/gtk-4.0'
+    path: '{{ config_dir }}/gtk-4.0'
     state: directory
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
@@ -32,7 +32,7 @@
 - name: Set up GTK4
   ansible.builtin.template:
     src: 'gtk4config'
-    dest: '{{ home_dir }}/.config/gtk-4.0/settings.ini'
+    dest: '{{ config_dir }}/gtk-4.0/settings.ini'
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
     mode: '0755'

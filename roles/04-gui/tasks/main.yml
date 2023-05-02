@@ -1,8 +1,15 @@
 ---
-- name: Install pip3
+- name: Install dependencies
   become: true
   ansible.builtin.apt:
-    pkg: python3-pip
+    name:
+      - python3-pip
+      - rofi
+      - polybar
+      - network-manager
+      - compton
+      - xautolock
+      - feh
     state: latest
 
 - name: Force install pywal python package
@@ -11,16 +18,10 @@
     name: pywal
     extra_args: --break-system-packages
 
-- name: Install compton
-  become: true
-  ansible.builtin.apt:
-    pkg: compton
-    state: latest
-
 - name: Set up compton
   ansible.builtin.copy:
     src: 'templates/compton.conf'
-    dest: '{{ home_dir }}/.config/compton.conf'
+    dest: '{{ config_dir }}/compton.conf'
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
     mode: '0755'
@@ -33,20 +34,8 @@
     group: '{{ linux_user }}'
     mode: '0755'
 
-- name: Install xautolock
-  become: true
-  ansible.builtin.apt:
-    pkg: xautolock
-    state: latest
-
 - name: Install i3lock-fancy-rapid
   ansible.builtin.import_tasks: install-i3lock-fancy-rapid.yml
-
-- name: Install Feh (Fast X11 image viewer)
-  become: true
-  ansible.builtin.apt:
-    pkg: feh
-    state: latest
 
 - name: Install i3
   become: true
@@ -59,15 +48,9 @@
 - name: Install GTK dependencies
   ansible.builtin.import_tasks: install-gtk-stuff.yml
 
-- name: Install rofi
-  become: true
-  ansible.builtin.apt:
-    pkg: rofi
-    state: latest
-
 - name: Create rofi wall directory if it does not exist
   ansible.builtin.file:
-    path: '{{ home_dir }}/.config/wal/templates'
+    path: '{{ config_dir }}/wal/templates'
     state: directory
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
@@ -76,32 +59,21 @@
 - name: Set up rofi
   ansible.builtin.copy:
     src: 'templates/rofi.rasi'
-    dest: '{{ home_dir }}/.config/wal/templates/colors-rofi-dark.rasi'
+    dest: '{{ config_dir }}/wal/templates/colors-rofi-dark.rasi'
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
     mode: '0755'
 
-- name: Install polybar
-  become: true
-  ansible.builtin.apt:
-    pkg: polybar
-    state: latest
-
-- name: Install nmtui
-  become: true
-  ansible.builtin.apt:
-    pkg: network-manager
-    state: latest
 
 - name: Copy i3 config
-  ansible.builtin.command: cp -r {{ playbook_dir }}/templates/i3 {{ home_dir }}/.config/
+  ansible.builtin.command: cp -r {{ playbook_dir }}/templates/i3 {{ config_dir }}/
   args:
-    creates: '{{ home_dir }}/.config/i3'
+    creates: '{{ config_dir }}/i3'
 
 - name: Set up permissions i3
   become: true
   ansible.builtin.file:
-    dest: '{{ home_dir }}/.config'
+    dest: '{{ config_dir }}'
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
     recurse: true

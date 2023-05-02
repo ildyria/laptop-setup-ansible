@@ -1,0 +1,10 @@
+---
+# Install
+install_dir: '{{ home_dir }}/.install'
+
+# Config
+config_dir: '{{ home_dir }}/.config'
+
+# i3lock fancy rapid
+i3lock_fancy_rapid_dir: '{{ install_dir }}/i3lock-fancy-rapid'
+i3lock_fancy_rapid_install_location: '/usr/bin/i3lock-fancy-rapid'
