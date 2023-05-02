@@ -1,0 +1,21 @@
+---
+- name: Update the /etc/default/grub file
+  become: true
+  ansible.builtin.lineinfile:
+    path: '/etc/default/grub'
+    regexp: '#GRUB_DISABLE_OS_PROBER=false'
+    line: 'GRUB_DISABLE_OS_PROBER=false'
+    state: present
+    backup: true
+  register: updated_grub
+
+- name: Update grub
+  become: true
+  ansible.builtin.command: update-grub
+  when: updated_grub is changed
+
+- name: Install ntp
+  become: true
+  ansible.builtin.apt:
+    pkg: ntp
+    state: latest

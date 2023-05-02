@@ -1,27 +1,23 @@
-- name: "Create {{ home_dir }}/Documents/Projects directory if it does not exist"
+---
+- name: Install Lychee files
+  ansible.builtin.import_tasks: '{{ role_path }}/tasks/lychee-dev/1-files.yml'
+
+- name: Setup Lychee database
+  ansible.builtin.import_tasks: '{{ role_path }}/tasks/lychee-dev/2-db.yml'
+
+- name: Setup Lychee env
+  ansible.builtin.import_tasks: '{{ role_path }}/tasks/lychee-dev/3-env.yml'
+
+- name: Apply Lychee migration
+  ansible.builtin.import_tasks: '{{ role_path }}/tasks/lychee-dev/4-artisan.yml'
+
+- name: Update owner & permissions of {{ home_dir }}/Documents/Projects/Lychee
   ansible.builtin.file:
-    path: "{{ home_dir }}/Documents/Projects"
-    state: directory
-    owner: "{{ linux_user }}"
-    group: "{{ linux_user }}"
-    mode: '0755'
-    recurse: true
-
-- name: "Check if directory {{ home_dir }}/Documents/Projects/Lychee exists"
-  ansible.builtin.stat:
-    path: "{{ home_dir }}/Documents/Projects/Lychee"
-  register: lychee_dir
-
-- name: "Clone Lychee"
-  ansible.builtin.git:
-    repo: https://github.com/LycheeOrg/Lychee
-    dest: "{{ home_dir }}/Documents/Projects/Lychee"
-  when: not lychee_dir.stat.exists
-
-- name: "Create {{ home_dir }}/Documents/Projects directory if it does not exist"
-  ansible.builtin.file:
-    path: "{{ home_dir }}/Documents/Projects/Lychee"
-    owner: "{{ linux_user }}"
+    path: '{{ home_dir }}/Documents/Projects/Lychee'
+    owner: '{{ linux_user }}'
     group: www-data
     mode: '0775'
     recurse: true
+
+- name: Setup lychee.test domain
+  ansible.builtin.import_tasks: '{{ role_path }}/tasks/lychee-dev/5-domain.yml'

@@ -1,4 +1,5 @@
-- name: "Install php for apache2"
+---
+- name: Install php for apache2
   become: true
   ansible.builtin.apt:
     name:
@@ -11,7 +12,7 @@
     state: latest
 
 # php8.2-json already provided
-- name: "Install more php dependencies"
+- name: Install more php dependencies
   become: true
   ansible.builtin.apt:
     name:
@@ -28,22 +29,23 @@
       - php8.2-sqlite3
       # - php8.2-pgsql
     state: latest
+  notify: Restart apache2
 
-- name: "Download composer-setup.php"
+- name: Download composer-setup.php
   ansible.builtin.get_url:
     url: https://getcomposer.org/installer
-    dest: "{{ home_dir }}/.install/composer-setup.php"
+    dest: '{{ home_dir }}/.install/composer-setup.php'
     mode: '0755'
 
-- name: "Install composer"
+- name: Install composer
   become: true
   ansible.builtin.command:
     cmd: php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-    chdir: "{{ home_dir }}/.install/"
-    creates: "/usr/local/bin/composer"
+    chdir: '{{ home_dir }}/.install/'
+    creates: '/usr/local/bin/composer'
 
-- name: "Remove {{ home_dir }}/.install/composer-setup.php"
+- name: Remove {{ home_dir }}/.install/composer-setup.php
   become: true
   ansible.builtin.file:
-    path: "{{ home_dir }}/.install/composer-setup.php"
+    path: '{{ home_dir }}/.install/composer-setup.php'
     state: absent

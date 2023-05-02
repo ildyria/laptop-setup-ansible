@@ -1,5 +1,5 @@
 ---
-- name: "Install keepass2"
+- name: Install keepass2
   become: true
   ansible.builtin.apt:
     pkg: keepass2

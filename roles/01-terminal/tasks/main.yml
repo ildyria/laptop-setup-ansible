@@ -1,7 +1,8 @@
-- name: "Setup urxvt"
+---
+- name: Setup urxvt
   ansible.builtin.import_tasks: setup-urxvt.yml
 
-- name: "Install common command line tools"
+- name: Install common command line tools
   become: true
   ansible.builtin.apt:
     name:
@@ -14,8 +15,8 @@
       - neofetch
     state: latest
 
-- name: "Setup git"
+- name: Setup git
   ansible.builtin.import_tasks: setup-git.yml
 
-- name: "Setup zsh"
+- name: Setup zsh
   ansible.builtin.import_tasks: setup-zsh.yml

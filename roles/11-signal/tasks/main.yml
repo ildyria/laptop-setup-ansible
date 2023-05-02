@@ -11,7 +11,7 @@
 - name: Add Signal apt key.
   become: true
   ansible.builtin.get_url:
-    url: "https://updates.signal.org/desktop/apt/keys.asc"
+    url: 'https://updates.signal.org/desktop/apt/keys.asc'
     dest: /etc/apt/trusted.gpg.d/signal-desktop-keyring.asc
     mode: '0644'
     force: true
@@ -21,7 +21,7 @@
 - name: Add Signal repository.
   become: true
   ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/signal-desktop-keyring.asc] https://updates.signal.org/desktop/apt xenial main"
+    repo: 'deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/signal-desktop-keyring.asc] https://updates.signal.org/desktop/apt xenial main'
     state: present
     update_cache: true
 
@@ -33,5 +33,5 @@
 - name: Install Signal
   become: true
   ansible.builtin.apt:
-    name: "signal-desktop"
+    name: signal-desktop
     state: present

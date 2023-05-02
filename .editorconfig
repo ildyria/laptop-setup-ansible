@@ -18,6 +18,9 @@ trim_trailing_whitespace = true
 # Files with a smaller indent
 [*.yml]
 indent_size = 2
+indent_style = space
+trim_trailing_whitespace = true
+insert_final_newline = true
 
 # Jinja2 template files
 [*.j2]

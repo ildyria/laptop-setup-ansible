@@ -1,7 +1,12 @@
 ---
 - name: Restart docker
+  become: true
   ansible.builtin.service:
     name: docker
     state: restarted
-  ignore_errors: true
-  when: true
+
+- name: Restart apache2
+  become: true
+  ansible.builtin.service:
+    name: apache2
+    state: restarted

@@ -1,13 +1,14 @@
-- name: "Create .install directory if it does not exist"
+---
+- name: Create .install directory if it does not exist
   ansible.builtin.file:
-    path: "{{ home_dir }}/.install/"
+    path: '{{ home_dir }}/.install/'
     state: directory
-    owner: "{{ linux_user }}"
-    group: "{{ linux_user }}"
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
     mode: '0755'
     recurse: true
 
-- name: "Ensure Fonts are installed."
+- name: Ensure Fonts are installed.
   become: true
   ansible.builtin.apt:
     name:
@@ -17,28 +18,39 @@
       - fonts-cantarell
     state: latest
 
-- name: "Check if directory /usr/local/share/fonts/NerdFonts exists"
+- name: Check if directory /usr/local/share/fonts/NerdFonts exists
   ansible.builtin.stat:
-    path: "/usr/local/share/fonts/NerdFonts"
+    path: '/usr/local/share/fonts/NerdFonts'
   register: nerd_fonts_dir
 
-- name: "Clone Nerd Fonts repo to {{ home_dir }}/.install/nerd-fonts"
+- name: Clone Nerd Fonts repo to {{ home_dir }}/.install/nerd-fonts
   ansible.builtin.git:
     repo: https://github.com/ryanoasis/nerd-fonts.git
     depth: 1
-    dest: "{{ home_dir }}/.install/nerd-fonts"
-    update: no
+    dest: '{{ home_dir }}/.install/nerd-fonts'
+    update: false
   when: not nerd_fonts_dir.stat.exists
 
-- name: "Execute font installation" 
+- name: Execute font installation
   become: true
-  shell:
-    cmd: "bash install.sh -S"
-    chdir: "{{ home_dir }}/.install/nerd-fonts/"
+  ansible.builtin.script:
+    cmd: "install.sh -S"
+    chdir: '{{ home_dir }}/.install/nerd-fonts/'
+    executable: /usr/bin/bash
   when: not nerd_fonts_dir.stat.exists
+  register: install_fonts
 
 # Only rebuild cache if we actually insalled the Nerd Fonts
-- name: "Rebuild font cache"
-  become_user: "{{ linux_user }}"
-  ansible.builtin.command: "fc-cache -fv"
-  when: not nerd_fonts_dir.stat.exists
+- name: Rebuild font cache
+  become_user: '{{ linux_user }}'
+  ansible.builtin.command: fc-cache -fv
+  when: install_fonts is success
+
+- name: Update permissions of {{ linux_user }}/.local
+  ansible.builtin.file:
+    path: '{{ linux_user }}/.local'
+    state: directory
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
+    recurse: true

@@ -1,0 +1,11 @@
+---
+skip_list:
+  - 'risky-shell-pipe'
+  - 'role-name'
+  - 'package-latest'
+  - 'latest[git]'
+  - 'name[template]'
+  - 'no-changed-when'
+exclude_paths:
+  - 'local'
+  - 'templates'

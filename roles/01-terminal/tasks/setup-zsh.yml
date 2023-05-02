@@ -1,51 +1,60 @@
+---
 - name: Install zsh
   become: true
   ansible.builtin.apt:
     pkg: zsh
     state: latest
 
-- name: "Update shell of {{ linux_user }}"
+- name: Update shell of {{ linux_user }}
   become: true
   ansible.builtin.user:
-    name: "{{ linux_user }}"
+    name: {{ linux_user }}
     shell: /usr/bin/zsh
 
-- name: "Check if directory {{ home_dir }}/.oh-my-zsh exists"
+- name: Update shell of root
+  become: true
+  ansible.builtin.user:
+    name: root
+    shell: /usr/bin/zsh
+
+- name: Check if directory {{ home_dir }}/.oh-my-zsh exists
   ansible.builtin.stat:
-    path: "{{ home_dir }}/.oh-my-zsh"
+    path: '{{ home_dir }}/.oh-my-zsh'
   register: oh_my_zsh_dir
 
-- name: "Clone oh-my-zsh"
+- name: Clone oh-my-zsh
   ansible.builtin.git:
     repo: https://github.com/ohmyzsh/ohmyzsh
-    dest: "{{ home_dir }}/.oh-my-zsh"
+    dest: '{{ home_dir }}/.oh-my-zsh'
     depth: 1
   when: not oh_my_zsh_dir.stat.exists
 
-- name: "Clone zsh-autosuggestions"
+- name: Clone zsh-autosuggestions
   ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-autosuggestions
-    dest: "{{ home_dir }}/.oh-my-zsh/plugins/zsh-autosuggestions"
+    dest: '{{ home_dir }}/.oh-my-zsh/plugins/zsh-autosuggestions'
     depth: 1
   when: not oh_my_zsh_dir.stat.exists
 
-- name: "Clone zsh-syntax-highlighting"
+- name: Clone zsh-syntax-highlighting
   ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting
-    dest: "{{ home_dir }}/.oh-my-zsh/plugins/zsh-syntax-highlighting"
+    dest: '{{ home_dir }}/.oh-my-zsh/plugins/zsh-syntax-highlighting'
     depth: 1
   when: not oh_my_zsh_dir.stat.exists
 
-- name: "Set up zshrc"
+- name: Set up zshrc
   ansible.builtin.template:
-    src: "zshrc"
-    dest: "{{ home_dir }}/.zshrc"
-    owner: "{{ linux_user }}"
-    group: "{{ linux_user }}"
+    src: 'zshrc'
+    dest: '{{ home_dir }}/.zshrc'
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
 
-- name: "Set up permissions oh-my-zsh"
+- name: Set up permissions oh-my-zsh
   ansible.builtin.file:
-    dest: "{{ home_dir }}/.oh-my-zsh"
-    owner: "{{ linux_user }}"
-    group: "{{ linux_user }}"
+    dest: '{{ home_dir }}/.oh-my-zsh'
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
     recurse: true

@@ -1,2 +1,3 @@
-- name: "Install Lychee-dev"
+---
+- name: Install Lychee-dev
   ansible.builtin.import_tasks: lychee-dev.yml

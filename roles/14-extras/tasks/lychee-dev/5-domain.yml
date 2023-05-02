@@ -1,0 +1,84 @@
+---
+- name: Add Lychee.test to host file
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    line: '127.0.0.1 lychee.test'
+    state: present
+    owner: root
+    group: root
+    mode: '0644'
+
+# Generate certificate
+- name: Generage certificate for lychee.test
+  become: true
+  ansible.builtin.command:
+    cmd: ./microca -domains lychee.test
+    chdir: '{{ home_dir }}/.install/microca/'
+    creates: '{{ home_dir }}/.install/microca/lychee.test'
+
+- name: Fix access of {{ home_dir }}/.install/microca/lychee.test
+  ansible.builtin.file:
+    path: '{{ home_dir }}/.install/microca/lychee.test'
+    state: directory
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0750'
+    recurse: true
+
+- name: Install lychee.test private key
+  become: true
+  ansible.builtin.copy:
+    src: '{{ home_dir }}/.install/microca/lychee.test/key.pem'
+    dest: '/etc/ssl/private/lychee.test.key'
+    mode: '0640'
+
+- name: Install lychee.test certificate
+  become: true
+  ansible.builtin.copy:
+    src: '{{ home_dir }}/.install/microca/lychee.test/cert.pem'
+    dest: '/etc/ssl/certs/lychee.test.pem'
+    mode: '0777'
+
+- name: Install lychee.test certificate
+  become: true
+  ansible.builtin.copy:
+    src: '{{ playbook_dir }}/templates/apache2/lychee-test-ssl.conf'
+    dest: '/etc/apache2/sites-available/lychee-test-ssl.conf'
+    mode: '0644'
+
+- name: Enable lychee.test
+  become: true
+  ansible.builtin.command:
+    cmd: a2ensite lychee-test-ssl.conf
+    creates: '/etc/apache2/sites-enabled/lychee-test-ssl.conf'
+  notify: Restart apache2
+
+- name: Fix access of {{ home_dir }}/.install/microca/microca.pem
+  ansible.builtin.file:
+    path: '{{ home_dir }}/.install/microca/microca.pem'
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0750'
+
+- name: Make sure the folder exists
+  ansible.builtin.file:
+    path: /usr/local/share/ca-certificates
+    mode: '0755'
+    state: directory
+
+- name: Setup Root CA
+  become: true
+  ansible.builtin.copy:
+    src: '{{ home_dir }}/.install/microca/microca.pem'
+    dest: '/usr/local/share/ca-certificates/microca.crt'
+    mode: '0755'
+  register: result_import_ca
+
+- name: Update CA Trust
+  become: true
+  ansible.builtin.command:
+    cmd: update-ca-certificates
+  when: result_import_ca is changed
+
+- name: Import 

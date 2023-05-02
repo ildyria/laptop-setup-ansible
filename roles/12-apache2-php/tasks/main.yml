@@ -1,4 +1,5 @@
-- name: "Install Apache2"
+---
+- name: Install Apache2
   become: true
   ansible.builtin.apt:
     name:
@@ -13,8 +14,14 @@
       - libapache2-mod-php8.0
     state: absent
 
-- name: "Install php"
+- name: Enable the Apache2 module ssl
+  become: true
+  ansible.builtin.command:
+    cmd: a2enmod ssl
+  notify: Restart apache2
+
+- name: Install php
   ansible.builtin.import_tasks: php.yml
 
-- name: "Install mariadb"
+- name: Install mariadb
   ansible.builtin.import_tasks: mariadb.yml

@@ -1,3 +1,4 @@
+---
 # This avoid breaking go when updating.
 - name: Remove previous go installation
   become: true
@@ -6,21 +7,23 @@
     state: absent
 
 # Get go.
-- name: "Download go1.20.3.linux-amd64.tar.gz"
+- name: Download go1.20.3.linux-amd64.tar.gz
   ansible.builtin.get_url:
     url: https://go.dev/dl/go1.20.3.linux-amd64.tar.gz
-    dest: "{{ home_dir }}/.install/go.tar.gz"
+    dest: '{{ home_dir }}/.install/go.tar.gz'
+    mode: '0644'
 
 # Extract
-- name: "Extract go.tar.gz into /usr/local/go"
+- name: Extract go.tar.gz into /usr/local/go
   become: true
   ansible.builtin.unarchive:
-    src: "{{ home_dir }}/.install/go.tar.gz"
+    src: '{{ home_dir }}/.install/go.tar.gz'
     dest: /usr/local/
-    mode: "0755"
+    mode: '0755'
 
-- name: "Remove {{ home_dir }}/.install/go.tar.gz"
+- name: Remove {{ home_dir }}/.install/go.tar.gz
   become: true
   ansible.builtin.file:
-    path: "{{ home_dir }}/.install/go.tar.gz"
+    path: '{{ home_dir }}/.install/go.tar.gz'
     state: absent
+    mode: '0755'

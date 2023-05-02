@@ -1,3 +1,4 @@
+---
 # install proper terminal
 - name: Install urxvt
   become: true
@@ -12,7 +13,8 @@
 
 - name: Set up Xdefaults
   ansible.builtin.template:
-    src: "Xdefaults"
-    dest: "{{ home_dir }}/.Xdefaults"
-    owner: "{{ linux_user }}"
-    group: "{{ linux_user }}"
+    src: 'Xdefaults'
+    dest: '{{ home_dir }}/.Xdefaults'
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
