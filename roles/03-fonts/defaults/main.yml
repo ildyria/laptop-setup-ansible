@@ -1,0 +1,8 @@
+---
+# Install
+install_dir: '{{ home_dir }}/.install'
+
+# Nerd Fonts
+nerd_font_git_dir: '{{ install_dir }}/nerd-fonts'
+nerd_font_install_dir: '/usr/local/share/fonts/NerdFonts'
+home_dir_local: '{{ home_dir }}/.local'
