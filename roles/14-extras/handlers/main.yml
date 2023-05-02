@@ -4,3 +4,8 @@
   ansible.builtin.service:
     name: apache2
     state: restarted
+
+- name: Update CA Trust store
+  become: true
+  ansible.builtin.command:
+    cmd: update-ca-certificates

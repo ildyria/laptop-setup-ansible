@@ -1,4 +1,10 @@
 # code: language=ansible
 ---
+- name: Install root CA
+  ansible.builtin.import_tasks: install-root-ca.yml
+
 - name: Install Lychee-dev
   ansible.builtin.import_tasks: lychee-dev.yml
+
+- name: Install LycheeOrg-dev
+  ansible.builtin.import_tasks: lycheeorg-dev.yml

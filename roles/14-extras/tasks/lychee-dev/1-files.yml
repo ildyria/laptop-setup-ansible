@@ -1,5 +1,11 @@
 ---
+- name: Check if exists {{ project_dir }}
+  ansible.builtin.stat:
+    path: '{{ project_dir }}'
+  register: project_dir_exists
+
 - name: Create if not exists {{ project_dir }}
+  become: true
   ansible.builtin.file:
     path: '{{ project_dir }}'
     state: directory
@@ -7,6 +13,7 @@
     group: '{{ linux_user }}'
     mode: '0755'
     recurse: true
+  when: not project_dir_exists.stat.exists
 
 - name: Check if exists {{ lychee_dir }}
   ansible.builtin.stat:
@@ -15,6 +22,7 @@
 
 - name: Clone Lychee
   ansible.builtin.git:
-    repo: https://github.com/LycheeOrg/Lychee
+    repo: '{{ lychee_repo }}'
     dest: '{{ lychee_dir }}'
+    key_file: "{{ sshkey_file }}"
   when: not lychee_dir_exists.stat.exists

@@ -1,17 +1,22 @@
 ---
 # Projects
 project_dir: '{{ home_dir }}/Documents/Projects'
+sshkey_file: '{{ home_dir }}/.ssh/id_ed25519_github'
 
 # Lychee
 lychee_dir: '{{ project_dir }}/Lychee'
 lychee_url: 'lychee.test'
+lychee_repo: 'git@github.com:LycheeOrg/Lychee'
 
 lychee_db_name: 'lychee'
 lychee_db_user: 'lychee'
 lychee_db_password: 'password'
 
+# LycheeOrg
+lychee_org_dir: '{{ project_dir }}/LycheeOrg'
+lychee_org_url: 'lycheeorg.test'
+lychee_org_repo: 'git@github.com:LycheeOrg/LycheeOrg.github.io'
+
 # Microca
 microca_dir: '{{ install_dir }}/microca'
 microca_root_ca: '{{ microca_dir }}/microca.pem'
-lychee_cert_dir: '{{ microca_dir }}/{{ lychee_url }}'
-

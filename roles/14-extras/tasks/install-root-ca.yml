@@ -1,0 +1,64 @@
+# code: language=ansible
+---
+- name: Check if exists {{ microca_root_ca }}
+  ansible.builtin.stat:
+    path: '{{ microca_root_ca }}'
+  register: root_ca_exists
+
+- name: Generage ROOT CA (By creating a random cert)
+  become: true
+  ansible.builtin.command:
+    cmd: ./microca -domains example.com
+    chdir: '{{ microca_dir }}'
+    creates: '{{ microca_dir }}/example.com'
+  when: not root_ca_exists.stat.exists
+
+- name: Remove example.com
+  become: true
+  ansible.builtin.file:
+    path: '{{ microca_dir }}/example.com'
+    state: 'absent'
+  when: not root_ca_exists.stat.exists
+
+- name: Make sure the folder exists
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/share/ca-certificates
+    mode: '0755'
+    state: directory
+  when: not root_ca_exists.stat.exists
+
+- name: Setup Root CA
+  become: true
+  ansible.builtin.copy:
+    src: '{{ microca_root_ca }}'
+    dest: '/usr/local/share/ca-certificates/microca.crt'
+    mode: '0755'
+  notify: Update CA Trust store
+  when: not root_ca_exists.stat.exists
+
+- name: Install libnss3-tools
+  become: true
+  ansible.builtin.apt:
+    pkg: libnss3-tools
+    state: present
+  when: not root_ca_exists.stat.exists
+
+- name: Import CA into firefox & chrome
+  ansible.builtin.shell: |
+    ### For cert8 - Thunderbird
+    for certDB in $(find {{ home_dir }}/ -name "cert8.db")
+    do
+        certdir=$(dirname ${certDB});
+        certutil -A -n "microca root" -t "TCu,Cu,Tu" -i "{{ microca_root_ca }}" -d dbm:${certdir}
+    done
+
+    ### For cert9 (SQL - Chrome)
+    for certDB in $(find {{ home_dir }}/ -name "cert9.db")
+    do
+        certdir=$(dirname ${certDB});
+        certutil -A -n "microca root" -t "TCu,Cu,Tu" -i "{{ microca_root_ca }}" -d sql:${certdir}
+    done
+  args:
+    executable: /usr/bin/bash
+  when: not root_ca_exists.stat.exists

@@ -1,3 +1,4 @@
+# code: language=ansible
 ---
 - name: Install Lychee files
   ansible.builtin.import_tasks: '{{ role_path }}/tasks/lychee-dev/1-files.yml'
@@ -11,14 +12,21 @@
 - name: Apply Lychee migration
   ansible.builtin.import_tasks: '{{ role_path }}/tasks/lychee-dev/4-artisan.yml'
 
-- name: Update owner & permissions of {{ home_dir }}/Documents/Projects/Lychee
+- name: Update owner & permissions of {{ lychee_dir }}
   become: true
   ansible.builtin.file:
-    path: '{{ home_dir }}/Documents/Projects/Lychee'
+    path: '{{ lychee_dir }}'
     owner: '{{ linux_user }}'
-    group: www-data
+    group: 'www-data'
     mode: '0775'
     recurse: true
 
-- name: Setup lychee.test domain
-  ansible.builtin.import_tasks: '{{ role_path }}/tasks/lychee-dev/5-domain.yml'
+- name: Setup {{ lychee_url }}
+  ansible.builtin.import_tasks: 'install-site.yml'
+  vars:
+    site_url: '{{ lychee_url }}'
+    site_root_dir: '{{ lychee_dir }}'
+    site_public_dir: '{{ lychee_dir }}/public'
+    site_dir_conf: '{{ site_url }}-dir.conf'
+    site_ssl_conf: '{{ site_url }}-ssl.conf'
+    site_cert_dir: '{{ microca_dir }}/{{ site_url }}'

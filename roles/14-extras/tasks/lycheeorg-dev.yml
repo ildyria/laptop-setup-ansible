@@ -1,0 +1,52 @@
+# code: language=ansible
+---
+- name: Check if exists {{ project_dir }}
+  ansible.builtin.stat:
+    path: '{{ project_dir }}'
+  register: project_dir_exists
+
+- name: Create if not exists {{ project_dir }}
+  become: true
+  ansible.builtin.file:
+    path: '{{ project_dir }}'
+    state: directory
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
+    recurse: true
+  when: not project_dir_exists.stat.exists
+
+- name: Check if exists {{ lychee_org_dir }}
+  ansible.builtin.stat:
+    path: '{{ lychee_org_dir }}'
+  register: lychee_org_dir_exists
+
+- name: Clone LycheeOrg.github.io
+  ansible.builtin.git:
+    repo: '{{ lychee_org_repo }}'
+    dest: '{{ lychee_org_dir }}'
+    key_file: '{{ sshkey_file }}'
+  when: not lychee_org_dir_exists.stat.exists
+
+- name: Install dependencies
+  become: true
+  ansible.builtin.apt:
+    name:
+      - python3-git
+      - python3-pytest
+      - python3-markdown
+    state: latest
+
+- name: Compile
+  community.general.make:
+    chdir: '{{ lychee_org_dir }}'
+
+- name: Setup {{ lychee_org_url }}
+  ansible.builtin.import_tasks: 'install-site.yml'
+  vars:
+    site_url: '{{ lychee_org_url }}'
+    site_root_dir: '{{ lychee_org_dir }}/build/'
+    site_public_dir: '{{ lychee_org_dir }}/build/'
+    site_dir_conf: '{{ site_url }}-dir.conf'
+    site_ssl_conf: '{{ site_url }}-ssl.conf'
+    site_cert_dir: '{{ microca_dir }}/{{ site_url }}'
