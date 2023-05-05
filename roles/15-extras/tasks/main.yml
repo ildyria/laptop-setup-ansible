@@ -8,3 +8,6 @@
 
 - name: Install LycheeOrg-dev
   ansible.builtin.import_tasks: lycheeorg-dev.yml
+
+- name: Install phpmyadmin-dev
+  ansible.builtin.import_tasks: phpmyadmin-dev.yml

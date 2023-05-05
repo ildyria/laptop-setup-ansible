@@ -1,0 +1,11 @@
+# code: language=ansible
+---
+- name: Setup phpmyadmin.dev
+  ansible.builtin.import_tasks: 'install-site.yml'
+  vars:
+    site_url: 'phpmyadmin.dev'
+    site_root_dir: '/var/www/html/phpmyadmin'
+    site_public_dir: '/var/www/html/phpmyadmin'
+    site_dir_conf: 'phpmyadmin.dev-dir.conf'
+    site_ssl_conf: 'phpmyadmin.dev-ssl.conf'
+    site_cert_dir: '{{ microca_dir }}/phpmyadmin.dev'
