@@ -47,3 +47,6 @@
 
 - name: Install mariadb
   ansible.builtin.import_tasks: 1-mariadb.yml
+
+- name: Install nodeJS and NPM
+  ansible.builtin.import_tasks: 2-node.yml
