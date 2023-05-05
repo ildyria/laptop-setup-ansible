@@ -1,0 +1,49 @@
+# code: language=ansible
+---
+- name: Check if exists {{ phpmyadmin_www }}
+  ansible.builtin.stat:
+    path: '{{ phpmyadmin_www }}'
+  register: phpmyadmin_exists
+
+- name: Download phpMyAdmin-latest-english.tar.gz
+  ansible.builtin.get_url:
+    url: '{{ phpmyadmin_download_url }}'
+    dest: '{{ phpmyadmin_tar_gz }}'
+    mode: '0755'
+  when: not phpmyadmin_exists.stat.exists
+
+- name: Create directory {{ phpmyadmin_www }}
+  ansible.builtin.file:
+    path: '{{ phpmyadmin_www }}'
+    state: directory
+    owner: 'www-data'
+    group: 'www-data'
+    mode: '0755'
+  when: not phpmyadmin_exists.stat.exists
+
+- name: Extract phpmyadmin.tar.gz into {{ phpmyadmin_www }}
+  ansible.builtin.unarchive:
+    src: '{{ phpmyadmin_tar_gz }}'
+    dest: '{{ phpmyadmin_www }}'
+    owner: 'www-data'
+    group: 'www-data'
+    mode: '0755'
+    extra_opts: [--strip-components=1]
+    creates: '{{ phpmyadmin_www }}/index.php'
+  when: not phpmyadmin_exists.stat.exists
+
+- name: Remove {{ phpmyadmin_tar_gz }}
+  become: true
+  ansible.builtin.file:
+    path: '{{ phpmyadmin_tar_gz }}'
+    state: absent
+  when: not phpmyadmin_exists.stat.exists
+
+- name: Setup {{ phpmyadmin_url }}
+  ansible.builtin.import_tasks: 'install-site.yml'
+  vars:
+    site_url: '{{ phpmyadmin_url }}'
+    site_root_dir: '{{ phpmyadmin_www }}'
+    site_public_dir: '{{ phpmyadmin_www }}'
+    site_dir_conf: '{{ phpmyadmin_url }}-dir.conf'
+    site_ssl_conf: '{{ phpmyadmin_url }}-ssl.conf'

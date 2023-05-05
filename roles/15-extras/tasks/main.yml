@@ -1,13 +1,45 @@
 # code: language=ansible
 ---
+- name: Check if exists {{ install_dir }}
+  ansible.builtin.stat:
+    path: '{{ install_dir }}'
+  register: install_dir_exists
+
+- name: Create not exist {{ install_dir }}
+  become: true
+  ansible.builtin.file:
+    path: '{{ install_dir }}/'
+    state: directory
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
+    recurse: true
+  when: not install_dir_exists.stat.exists
+
+- name: Check if exists {{ project_dir }}
+  ansible.builtin.stat:
+    path: '{{ project_dir }}'
+  register: project_dir_exists
+
+- name: Create if not exists {{ project_dir }}
+  become: true
+  ansible.builtin.file:
+    path: '{{ project_dir }}'
+    state: directory
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
+    recurse: true
+  when: not project_dir_exists.stat.exists
+
 - name: Install root CA
-  ansible.builtin.import_tasks: install-root-ca.yml
-
-- name: Install Lychee-dev
-  ansible.builtin.import_tasks: lychee-dev.yml
-
-- name: Install LycheeOrg-dev
-  ansible.builtin.import_tasks: lycheeorg-dev.yml
+  ansible.builtin.import_tasks: 0-install-root-ca.yml
 
 - name: Install phpmyadmin-dev
-  ansible.builtin.import_tasks: phpmyadmin-dev.yml
+  ansible.builtin.import_tasks: 1-phpmyadmin-dev.yml
+
+- name: Install Lychee-dev
+  ansible.builtin.import_tasks: 2-lychee-dev.yml
+
+- name: Install LycheeOrg-dev
+  ansible.builtin.import_tasks: 3-lycheeorg-dev.yml

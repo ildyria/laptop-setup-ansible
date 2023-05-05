@@ -1,5 +1,0 @@
----
-- name: Migrate database
-  ansible.builtin.command:
-    cmd: php artisan migrate
-    chdir: '{{ lychee_dir }}'

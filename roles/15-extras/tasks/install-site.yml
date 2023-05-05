@@ -8,7 +8,6 @@
     or site_public_dir is undefined
     or site_dir_conf is undefined
     or site_ssl_conf is undefined
-    or site_cert_dir is undefined
 
 - name: Add {{ site_url }} to host file
   become: true
@@ -20,40 +19,51 @@
     group: root
     mode: '0644'
 
+- name: Check if exists /etc/ssl/private/{{ site_url }}.pem
+  ansible.builtin.stat:
+    path: '/etc/ssl/certs/{{ site_url }}.pem'
+  register: site_key_exists
+
 - name: Generage certificate for {{ site_url }}
   become: true
   ansible.builtin.command:
     cmd: ./microca -domains {{ site_url }}
     chdir: '{{ microca_dir }}'
-    creates: '{{ site_cert_dir }}'
+    creates: '{{ microca_dir }}/{{ site_url }}'
   register: site_test_cert
+  when: not site_key_exists.stat.exists
 
-- name: Fix access of {{ site_cert_dir }}
+- name: Fix access of {{ microca_dir }}/{{ site_url }}
   become: true
   ansible.builtin.file:
-    path: '{{ site_cert_dir }}'
+    path: '{{ microca_dir }}/{{ site_url }}'
     state: directory
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
     mode: '0750'
     recurse: true
-  when: site_test_cert is success
+  when: not site_key_exists.stat.exists and site_test_cert is success
 
 - name: Install {{ site_url }} private key
   become: true
   ansible.builtin.copy:
-    src: '{{ site_cert_dir }}/key.pem'
+    src: '{{ microca_dir }}/{{ site_url }}/key.pem'
     dest: '/etc/ssl/private/{{ site_url }}.key'
     mode: '0640'
-  when: site_test_cert is success
+  when: not site_key_exists.stat.exists and site_test_cert is success
 
 - name: Install {{ site_url }} certificate
   become: true
   ansible.builtin.copy:
-    src: '{{ site_cert_dir }}/cert.pem'
+    src: '{{ microca_dir }}/{{ site_url }}/cert.pem'
     dest: '/etc/ssl/certs/{{ site_url }}.pem'
     mode: '0777'
-  when: site_test_cert is success
+  when: not site_key_exists.stat.exists and site_test_cert is success
+
+- name: Check if exists {{ site_dir_conf }}
+  ansible.builtin.stat:
+    path: '{{ site_dir_conf }}'
+  register: site_conf_exists
 
 - name: Add {{ site_dir_conf }} to conf-available
   become: true
@@ -61,7 +71,7 @@
     src: 'apache2/conf-apache.conf.j2'
     dest: '/etc/apache2/conf-available/{{ site_dir_conf }}'
     mode: '0644'
-  when: site_test_cert is success
+  when: not site_conf_exists.stat.exists
   register: site_conf
 
 - name: Enable conf {{ site_dir_conf }}
@@ -69,8 +79,13 @@
   ansible.builtin.command:
     cmd: a2enconf {{ site_dir_conf }}
     creates: '/etc/apache2/conf-enabled/{{ site_dir_conf }}'
-  when: site_conf is success
+  when: site_conf_exists.stat.exists or site_conf is success
   notify: Restart apache2
+
+- name: Check if exists {{ site_ssl_conf }}
+  ansible.builtin.stat:
+    path: '{{ site_ssl_conf }}'
+  register: site_ssl_conf_exists
 
 - name: Add {{ site_ssl_conf }} to sites-available
   become: true
@@ -78,7 +93,7 @@
     src: 'apache2/site-ssl.conf.j2'
     dest: '/etc/apache2/sites-available/{{ site_ssl_conf }}'
     mode: '0644'
-  when: site_test_cert is success
+  when: not site_ssl_conf_exists.stat.exists and site_test_cert is success
   register: setup_site
 
 - name: Enable site {{ site_ssl_conf }}
@@ -86,5 +101,5 @@
   ansible.builtin.command:
     cmd: a2ensite {{ site_ssl_conf }}
     creates: '/etc/apache2/sites-enabled/{{ site_ssl_conf }}'
-  when: setup_site is success
+  when: site_ssl_conf_exists.stat.exists or setup_site is success
   notify: Restart apache2
