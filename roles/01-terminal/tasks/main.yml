@@ -13,6 +13,7 @@
       - vim-airline
       - wget
       - neofetch
+      - rsync
     state: latest
 
 - name: Setup git
