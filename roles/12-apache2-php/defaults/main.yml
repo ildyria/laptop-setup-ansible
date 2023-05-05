@@ -1,8 +1,3 @@
 ---
 # Install
 install_dir: '{{ home_dir }}/.install'
-
-# phpMyAdmin
-phpmyadmin_url: 'https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-english.tar.gz'
-phpmyadmin_tar_gz: '{{ install_dir }}/phpmyadmin.tar.gz'
-phpmyadmin_www: '/var/www/html/phpmyadmin'

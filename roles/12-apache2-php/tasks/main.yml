@@ -1,4 +1,20 @@
 ---
+- name: Check if exists {{ install_dir }}
+  ansible.builtin.stat:
+    path: '{{ install_dir }}'
+  register: install_dir_exists
+
+- name: Create not exist {{ install_dir }}
+  become: true
+  ansible.builtin.file:
+    path: '{{ install_dir }}/'
+    state: directory
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
+    recurse: true
+  when: not install_dir_exists.stat.exists
+
 - name: Install Apache2
   become: true
   ansible.builtin.apt:
