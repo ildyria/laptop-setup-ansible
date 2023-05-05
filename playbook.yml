@@ -17,7 +17,7 @@
     - {role: 09-multimedia, tags: ['multimedia']}
     - {role: 10-discord, tags: ['communication']}
     - {role: 11-signal, tags: ['signal']}
-    - {role: 12-apache2-php, tags: ['apache']}
+    - {role: 12-apache2-php-node, tags: ['apache']}
     - {role: 13-go-microca, tags: ['microca']}
     - {role: 14-latex, tags: ['latex']}
 
