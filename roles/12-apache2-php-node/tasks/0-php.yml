@@ -28,6 +28,7 @@
       - php8.2-zip
       - php8.2-mysql
       - php8.2-sqlite3
+      - php8.2-curl
       # - php8.2-pgsql
     state: latest
   notify: Restart apache2
