@@ -1,0 +1,6 @@
+# code: language=ansible
+---
+# Config
+config_dir: '{{ home_dir }}/.config'
+
+code_user_config_dir: '{{ home_dir }}/.config/Code/User'

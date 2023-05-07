@@ -64,8 +64,8 @@
     path: '{{ lychee_dir }}'
     owner: '{{ linux_user }}'
     group: 'www-data'
-    mode: '0775'
     recurse: true
+  tags: ['skip_ansible_lint']
 
 - name: Setup {{ lychee_url }}
   ansible.builtin.import_tasks: 'install-site.yml'

@@ -1,3 +1,4 @@
+# code: language=ansible
 ---
 # install proper terminal
 - name: Install urxvt

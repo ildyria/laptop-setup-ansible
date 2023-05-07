@@ -1,3 +1,4 @@
+# code: language=ansible
 ---
 - name: Install dependencies (apt)
   become: true
@@ -26,3 +27,40 @@
     name:
       - ansible-lint
     state: present
+
+- name: Check if exists {{ code_user_config_dir }}
+  ansible.builtin.stat:
+    path: '{{ code_user_config_dir }}'
+  register: code_user_config_dir_exists
+
+- name: Create not exist {{ code_user_config_dir }}
+  become: true
+  ansible.builtin.file:
+    path: '{{ code_user_config_dir }}'
+    state: directory
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
+    recurse: true
+  when: not code_user_config_dir_exists.stat.exists
+
+- name: Create not exist {{ code_user_config_dir }}
+  become: true
+  ansible.builtin.file:
+    path: '{{ code_user_config_dir }}'
+    state: directory
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
+    recurse: true
+  when: not code_user_config_dir_exists.stat.exists
+
+- name: Create {{ code_user_config_dir }}/settings.json
+  become: true
+  ansible.builtin.template:
+    src: 'code/settings.conf.j2'
+    dest: '{{ code_user_config_dir }}/settings.json'
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
+    creates: '{{ code_user_config_dir }}/settings.json'

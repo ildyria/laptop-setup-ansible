@@ -1,3 +1,4 @@
+# code: language=ansible
 ---
 - name: Create not exist {{ install_dir }}
   ansible.builtin.file:

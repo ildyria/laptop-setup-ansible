@@ -1,3 +1,4 @@
+# code: language=ansible
 ---
 # Install
 install_dir: '{{ home_dir }}/.install'

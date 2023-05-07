@@ -1,3 +1,4 @@
+# code: language=ansible
 ---
 - name: Install php for apache2
   become: true

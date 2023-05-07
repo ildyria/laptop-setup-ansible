@@ -1,3 +1,4 @@
+# code: language=ansible
 ---
 - name: Ensure old versions of Docker are not installed.
   become: true

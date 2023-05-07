@@ -1,3 +1,4 @@
+# code: language=ansible
 ---
 - name: Setup urxvt
   ansible.builtin.import_tasks: 0-setup-urxvt.yml

@@ -1,3 +1,4 @@
+# code: language=ansible
 ---
 - name: Update the /etc/default/grub file
   become: true
@@ -7,7 +8,6 @@
     line: 'GRUB_DISABLE_OS_PROBER=false'
     state: present
     backup: true
-  register: updated_grub
   notify: Update grub
 
 - name: Install ntp
