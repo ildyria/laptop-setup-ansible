@@ -4,3 +4,8 @@
   become: true
   ansible.builtin.apt:
     deb: https://discord.com/api/download?platform=linux&format=deb
+
+- name: Installing Zoom
+  become: true
+  ansible.builtin.apt:
+    deb: https://cdn.zoom.us/prod/5.14.7.2928/zoom_amd64.deb
