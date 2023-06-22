@@ -12,4 +12,22 @@
       - python3-selenium
       - python3-numpy
       - python3-mysqldb
+      - python3-venv
+      - python3-mysqldb
+      - python3-openssl
+    state: latest
+
+- name: Install ansible lint
+  become: true
+  ansible.builtin.apt:
+    name:
+      - ansible-lint
+    state: latest
+
+- name: Install ruby
+  become: true
+  ansible.builtin.apt:
+    name:
+      - ruby
+      - ruby-bundler
     state: latest

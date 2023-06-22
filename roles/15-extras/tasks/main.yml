@@ -38,8 +38,11 @@
 # - name: Install phpmyadmin-dev
 #   ansible.builtin.import_tasks: 1-phpmyadmin-dev.yml
 
-- name: Install Lychee-dev
-  ansible.builtin.import_tasks: 2-lychee-dev.yml
+# - name: Install Lychee-dev
+#   ansible.builtin.import_tasks: 2-lychee-dev.yml
 
 # - name: Install LycheeOrg-dev
 #   ansible.builtin.import_tasks: 3-lycheeorg-dev.yml
+
+
+# TODO: INSTALL EXIFTOOL

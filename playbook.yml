@@ -7,7 +7,7 @@
   roles:
     - {role: 00-dualboot-time, tags: ['init']}
     - {role: 01-terminal, tags: ['terminal']}
-    - {role: 02-python, tags: ['python']}
+    - {role: 02-python-ruby, tags: ['python', 'ruby']}
     - {role: 03-fonts, tags: ['fonts']}
     - {role: 04-gui, tags: ['gui']}
     - {role: 05-code, tags: ['code']}
@@ -20,7 +20,6 @@
     - {role: 12-apache2-php-node, tags: ['apache']}
     - {role: 13-go-microca, tags: ['microca']}
     - {role: 14-latex, tags: ['latex']}
-
     - {role: 15-extras, tags: ['extras']}
   tasks:
     - name: Who am I?
