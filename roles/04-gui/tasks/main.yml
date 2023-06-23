@@ -88,3 +88,6 @@
   ansible.builtin.command: cp -rv {{ playbook_dir }}/local/share/themes {{ home_dir }}/.local/share/themes
   args:
     creates: '{{ home_dir }}/.local/share/themes'
+
+- name: Install libinput-gesture
+  ansible.builtin.import_tasks: install-libinput.yml

@@ -32,17 +32,17 @@
     recurse: true
   when: not project_dir_exists.stat.exists
 
-# - name: Install root CA
-#   ansible.builtin.import_tasks: 0-install-root-ca.yml
+- name: Install root CA
+  ansible.builtin.import_tasks: 0-install-root-ca.yml
 
-# - name: Install phpmyadmin-dev
-#   ansible.builtin.import_tasks: 1-phpmyadmin-dev.yml
+- name: Install phpmyadmin-dev
+  ansible.builtin.import_tasks: 1-phpmyadmin-dev.yml
 
-# - name: Install Lychee-dev
-#   ansible.builtin.import_tasks: 2-lychee-dev.yml
+- name: Install Lychee-dev
+  ansible.builtin.import_tasks: 2-lychee-dev.yml
 
-# - name: Install LycheeOrg-dev
-#   ansible.builtin.import_tasks: 3-lycheeorg-dev.yml
+- name: Install LycheeOrg-dev
+  ansible.builtin.import_tasks: 3-lycheeorg-dev.yml
 
 
 # TODO: INSTALL EXIFTOOL

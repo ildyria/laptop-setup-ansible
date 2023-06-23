@@ -1,0 +1,43 @@
+# code: language=ansible
+---
+- name: Add user "{{ linux_user }}" to the "input" group
+  # For the changes to take effect you need to logout, as stated here.
+  # https://docs.docker.com/engine/install/linux-postinstall/
+  become: true
+  ansible.builtin.user:
+    name: '{{ linux_user }}'
+    groups:
+      - 'input'
+    append: true
+
+- name: Install dependencies
+  become: true
+  ansible.builtin.apt:
+    name:
+      - wmctrl
+      - xdotool
+      - libinput-tools
+    state: latest
+
+- name: Check if exists {{ libinput_dir }}
+  ansible.builtin.stat:
+    path: '{{ libinput_dir }}'
+  register: libinput_dir_exists
+
+- name: Clone libinput-gestures
+  ansible.builtin.git:
+    repo: '{{ libinput_repo }}'
+    dest: '{{ libinput_dir }}'
+    key_file: "{{ sshkey_file }}"
+  when: not libinput_dir_exists.stat.exists
+
+- name: Install libinput-gesture
+  become: true
+  ansible.builtin.command:
+    cmd: ./libinput-gestures-setup install
+    chdir: '{{ libinput_dir }}'
+
+- name: Autostart libinput-gesture
+  ansible.builtin.command:
+    cmd: ./libinput-gestures-setup autostart start
+    chdir: '{{ libinput_dir }}'

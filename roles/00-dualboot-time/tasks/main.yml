@@ -1,5 +1,12 @@
 # code: language=ansible
 ---
+- name: Purge useless firmware
+  become: true
+  ansible.builtin.apt:
+    pkg: raspi-firmware
+    state: absent
+    purge: true
+
 - name: Update the /etc/default/grub file
   become: true
   ansible.builtin.lineinfile:
