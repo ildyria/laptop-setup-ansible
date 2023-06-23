@@ -41,3 +41,11 @@
   ansible.builtin.command:
     cmd: ./libinput-gestures-setup autostart start
     chdir: '{{ libinput_dir }}'
+
+- name: Set up git config
+  ansible.builtin.template:
+    src: 'gui/libinput-gestures.conf'
+    dest: '{{ config_dir }}/libinput-gestures.conf'
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'

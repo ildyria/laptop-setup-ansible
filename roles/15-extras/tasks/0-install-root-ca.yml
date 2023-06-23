@@ -6,7 +6,6 @@
   register: root_ca_exists
 
 - name: Generage ROOT CA (By creating a random cert)
-  become: true
   ansible.builtin.command:
     cmd: ./microca -domains example.com
     chdir: '{{ microca_dir }}'
@@ -14,7 +13,6 @@
   when: not root_ca_exists.stat.exists
 
 - name: Remove example.com
-  become: true
   ansible.builtin.file:
     path: '{{ microca_dir }}/example.com'
     state: 'absent'

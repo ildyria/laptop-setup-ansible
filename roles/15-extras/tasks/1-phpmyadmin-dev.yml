@@ -13,6 +13,7 @@
   when: not phpmyadmin_exists.stat.exists
 
 - name: Create directory {{ phpmyadmin_www }}
+  become: true
   ansible.builtin.file:
     path: '{{ phpmyadmin_www }}'
     state: directory
@@ -22,6 +23,7 @@
   when: not phpmyadmin_exists.stat.exists
 
 - name: Extract phpmyadmin.tar.gz into {{ phpmyadmin_www }}
+  become: true
   ansible.builtin.unarchive:
     src: '{{ phpmyadmin_tar_gz }}'
     dest: '{{ phpmyadmin_www }}'

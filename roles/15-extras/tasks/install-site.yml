@@ -25,7 +25,6 @@
   register: site_key_exists
 
 - name: Generage certificate for {{ site_url }}
-  become: true
   ansible.builtin.command:
     cmd: ./microca -domains {{ site_url }}
     chdir: '{{ microca_dir }}'
@@ -34,7 +33,6 @@
   when: not site_key_exists.stat.exists
 
 - name: Fix access of {{ microca_dir }}/{{ site_url }}
-  become: true
   ansible.builtin.file:
     path: '{{ microca_dir }}/{{ site_url }}'
     state: directory
