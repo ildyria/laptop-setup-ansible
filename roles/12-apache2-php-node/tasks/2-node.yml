@@ -23,8 +23,10 @@
     repo: "{{ item }}"
     state: present
   with_items:
-    - "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/nodesource.asc] {{ nodejs_repo_url }} {{ ansible_distribution_release }} main"
-    - "deb-src [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/nodesource.asc] {{ nodejs_repo_url }} {{ ansible_distribution_release }} main"
+    # - "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/nodesource.asc] {{ nodejs_repo_url }} {{ ansible_distribution_release }} main"
+    # - "deb-src [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/nodesource.asc] {{ nodejs_repo_url }} {{ ansible_distribution_release }} main"
+    - "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/nodesource.asc] {{ nodejs_repo_url }} bookworm main"
+    - "deb-src [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/nodesource.asc] {{ nodejs_repo_url }} bookworm main"
   register: node_repo
 
 - name: Update apt cache if repo was added.

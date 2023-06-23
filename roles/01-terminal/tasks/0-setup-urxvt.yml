@@ -8,6 +8,7 @@
     state: latest
 
 - name: Correct terminal version selected
+  become: true
   community.general.alternatives:
     name: x-terminal-emulator
     path: /usr/bin/urxvt

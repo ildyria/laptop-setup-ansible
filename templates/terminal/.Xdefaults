@@ -4,12 +4,12 @@ URxvt.scrollBar: false
 URxvt.background: black
 URxvt.foreground: gray
 !! Font prefferenes
-URxvt.font: xft:DejaVu Sans Mono:pixelsize=12
-URxvt.boldFont: xft:DejaVu Sans Mono:pixelsize=12:weight=bold
-!!URxvt.font: xft:Monospace:pixelsize=11
-!!URxvt.boldFont: xft:Monospace:pixelsize=11:weight=bold
-!!URxvt.font: xft:Noto Sans Mono:pixelsize=11
-!!URxvt.boldFont: xft:Noto Sans Mono:pixelsize=11:weight=bold
+URxvt.font: xft:DejaVu Sans Mono:size=10
+URxvt.boldFont: xft:DejaVu Sans Mono:size=10:weight=bold
+!!URxvt.font: xft:Monospace:size=11
+!!URxvt.boldFont: xft:Monospace:size=11:weight=bold
+!!URxvt.font: xft:Noto Sans Mono:size=11
+!!URxvt.boldFont: xft:Noto Sans Mono:size=11:weight=bold
 UURxvt.letterSpace: -1
 !! Larger history limit
 URxvt.saveLines: 1000000

@@ -58,9 +58,8 @@
 - name: Create {{ code_user_config_dir }}/settings.json
   become: true
   ansible.builtin.template:
-    src: 'code/settings.conf.j2'
+    src: 'code/settings.json.j2'
     dest: '{{ code_user_config_dir }}/settings.json'
     owner: '{{ linux_user }}'
     group: '{{ linux_user }}'
     mode: '0755'
-    creates: '{{ code_user_config_dir }}/settings.json'

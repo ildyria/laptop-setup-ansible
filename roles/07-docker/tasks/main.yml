@@ -30,7 +30,8 @@
   become: true
   ansible.builtin.apt_repository:
     # repo: 'deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable'
-    repo: 'deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable'
+    # repo: 'deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable'
+    repo: 'deb [arch=amd64] https://download.docker.com/linux/debian bookworm stable'
     state: present
     update_cache: true
 
