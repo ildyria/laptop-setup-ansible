@@ -38,3 +38,7 @@ The theme is based on [LinuxNerdBTW/i3-MINI](https://github.com/LinuxNerdBTW/i3-
 ## Screenshot
 
 ![Screenshot](/screenshots/2023-04-30_1920x1080_19%3A33%3A30.png?raw=true)
+
+## Todo
+
+Enable fingerprint on PAM `sudo pam-auth-update` and then enroll your fingerprint with `fprintd-enroll`
