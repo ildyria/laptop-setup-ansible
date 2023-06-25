@@ -1,0 +1,47 @@
+# code: language=ansible
+---
+- name: Check if exists {{ install_dir }}
+  ansible.builtin.stat:
+    path: '{{ install_dir }}'
+  register: install_dir_exists
+
+- name: Create not exist {{ install_dir }}
+  ansible.builtin.file:
+    path: '{{ install_dir }}/'
+    state: directory
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
+    recurse: true
+  when: not install_dir_exists.stat.exists
+
+- name: Download deps
+  ansible.builtin.get_url:
+    url: '{{ libfprinttod_goodix_deb }}'
+    dest: '{{ install_dir }}/libfprint-2-tod1-goodix_0.0.4-0ubuntu1somerville1_amd64.deb'
+    mode: '0440'
+
+- name: Download deps2
+  ansible.builtin.get_url:
+    url: '{{ libfprinttod_deb }}'
+    dest: '{{ install_dir }}/libfprint-2-tod1_1.94.3+tod1-0ubuntu1_amd64.deb'
+    mode: '0440'
+
+- name: Get libraries
+  become: true
+  ansible.builtin.apt:
+    name:
+      - libfprint-2-2
+      - libpam-fprintd
+      - fprintd
+    state: latest
+
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
+    deb: '{{ install_dir }}/libfprint-2-tod1_1.94.3+tod1-0ubuntu1_amd64.deb'
+
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
+    deb: '{{ install_dir }}/libfprint-2-tod1-goodix_0.0.4-0ubuntu1somerville1_amd64.deb'

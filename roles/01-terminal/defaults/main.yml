@@ -1,8 +1,14 @@
 # code: language=ansible
 ---
+# Install
+install_dir: '{{ home_dir }}/.install'
+
 # Git config directory
 git_config_dir: '{{ home_dir }}/.config/git'
 git_config_file: '{{ home_dir }}/.config/git/config'
 
 # Oh My ZSH directory
 oh_my_zsh_dir: '/usr/share/oh-my-zsh'
+
+libfprinttod_goodix_deb: 'http://dell.archive.canonical.com/updates/pool/public/libf/libfprint-2-tod1-goodix/libfprint-2-tod1-goodix_0.0.4-0ubuntu1somerville1_amd64.deb'
+libfprinttod_deb: 'http://archive.ubuntu.com/ubuntu/pool/main/libf/libfprint/libfprint-2-tod1_1.94.3+tod1-0ubuntu1_amd64.deb'

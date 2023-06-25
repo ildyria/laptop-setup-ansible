@@ -23,3 +23,6 @@
 
 - name: Setup zsh
   ansible.builtin.import_tasks: 2-setup-zsh.yml
+
+- name: Setup Fingerprint reader
+  ansible.builtin.import_tasks: 3-setup-fingerprint.yml

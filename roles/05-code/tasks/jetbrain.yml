@@ -1,0 +1,34 @@
+# code: language=ansible
+---
+- name: Check if exists {{ install_dir }}
+  ansible.builtin.stat:
+    path: '{{ install_dir }}'
+  register: install_dir_exists
+
+- name: Create not exist {{ install_dir }}
+  become: true
+  ansible.builtin.file:
+    path: '{{ install_dir }}/'
+    state: directory
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
+    recurse: true
+  when: not install_dir_exists.stat.exists
+
+- name: Download Jetbrain toolbox with checksum url (sha256)
+  ansible.builtin.get_url:
+    url: 'https://download.jetbrains.com/toolbox/jetbrains-toolbox-1.28.1.15219.tar.gz'
+    dest: '{{ install_dir }}/jetbrains-toolbox.tar.gz'
+    checksum: sha256:138a1edb237668823bc262276555b7e0128f7169cdd0826b3354ae1dc4519814
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
+
+- name: Install Jetbrain toolbox
+  become: true
+  ansible.builtin.unarchive:
+    src: '{{ install_dir }}/jetbrains-toolbox.tar.gz'
+    dest: '/opt'
+    extra_opts: [--strip-components=1]
+    mode: '0755'
