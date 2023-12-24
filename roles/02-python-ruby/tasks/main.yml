@@ -15,6 +15,8 @@
       - python3-venv
       - python3-mysqldb
       - python3-openssl
+      - python3-psycopg2
+      - libpq-dev
     state: latest
 
 - name: Install ansible lint

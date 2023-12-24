@@ -5,22 +5,23 @@
     home_dir: '{{ lookup("env", "HOME") }}'
     linux_user: '{{ lookup("env", "USER") }}'
   roles:
-    - {role: 00-dualboot-time, tags: ['init']}
-    - {role: 01-terminal, tags: ['terminal']}
-    - {role: 02-python-ruby, tags: ['python', 'ruby']}
-    - {role: 03-fonts, tags: ['fonts']}
-    - {role: 04-gui, tags: ['gui']}
-    - {role: 05-code, tags: ['code']}
-    - {role: 06-browser, tags: ['browser']}
-    - {role: 07-docker, tags: ['docker']}
-    - {role: 08-keepass2, tags: ['security']}
-    - {role: 09-multimedia, tags: ['multimedia']}
-    - {role: 10-discord, tags: ['communication']}
-    - {role: 11-signal, tags: ['signal']}
-    - {role: 12-apache2-php-node, tags: ['apache']}
-    - {role: 13-go-microca, tags: ['microca']}
-    - {role: 14-latex, tags: ['latex']}
-    - {role: 15-extras, tags: ['extras']}
+    # - {role: 00-dualboot-time, tags: ['init']}
+    # - {role: 01-terminal, tags: ['terminal']}
+    # - {role: 02-python-ruby, tags: ['python', 'ruby']}
+    # - {role: 03-fonts, tags: ['fonts']}
+    # - {role: 04-gui, tags: ['gui']}
+    # - {role: 05-code, tags: ['code']}
+    # - {role: 06-browser, tags: ['browser']}
+    # - {role: 07-docker, tags: ['docker']}
+    # - {role: 08-keepass2, tags: ['security']}
+    # - {role: 09-multimedia, tags: ['multimedia']}
+    # - {role: 10-discord, tags: ['communication']}
+    # - {role: 11-signal, tags: ['signal']}
+    # - {role: 12-apache2-php-node, tags: ['apache']}
+    # - {role: 13-go-microca, tags: ['microca']}
+    # - {role: 14-latex, tags: ['latex']}
+    # - {role: 15-extras, tags: ['extras']}
+    - {role: 16-flyio, tags: ['extras']}
   tasks:
     - name: Who am I?
       ansible.builtin.debug:

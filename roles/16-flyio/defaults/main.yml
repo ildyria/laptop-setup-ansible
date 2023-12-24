@@ -1,0 +1,6 @@
+# code: language=ansible
+---
+# Install
+install_dir: '{{ home_dir }}/.install'
+
+flyctl_path: '{{ home_dir }}/.fly'

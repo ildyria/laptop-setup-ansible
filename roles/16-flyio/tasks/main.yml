@@ -1,0 +1,37 @@
+# code: language=ansible
+---
+- name: Check if exists {{ install_dir }}
+  ansible.builtin.stat:
+    path: '{{ install_dir }}'
+  register: install_dir_exists
+
+- name: Create not exist {{ install_dir }}
+  become: true
+  ansible.builtin.file:
+    path: '{{ install_dir }}/'
+    state: directory
+    owner: '{{ linux_user }}'
+    group: '{{ linux_user }}'
+    mode: '0755'
+    recurse: true
+  when: not install_dir_exists.stat.exists
+
+- name: Check if exists {{ flyctl_path }}
+  ansible.builtin.stat:
+    path: '{{ flyctl_path }}'
+  register: flyctl_exists
+
+- name: Download flyctl-setup.sh
+  ansible.builtin.get_url:
+    url: https://fly.io/install.sh
+    dest: '{{ install_dir }}/flyctl-setup.sh'
+    mode: '0755'
+  when: not flyctl_exists.stat.exists
+
+
+- name: Install flyctl
+  ansible.builtin.command:
+    cmd: sh flyctl-setup.sh
+    chdir: '{{ install_dir }}/'
+    creates: '{{ flyctl_path }}'
+  when: not flyctl_exists.stat.exists
