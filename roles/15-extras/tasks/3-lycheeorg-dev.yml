@@ -29,7 +29,7 @@
   ansible.builtin.import_tasks: 'install-site.yml'
   vars:
     site_url: '{{ lychee_org_url }}'
-    site_root_dir: '{{ lychee_org_dir }}/build/'
-    site_public_dir: '{{ lychee_org_dir }}/build/'
+    site_root_dir: '{{ lychee_org_dir }}/dist/'
+    site_public_dir: '{{ lychee_org_dir }}/dist/'
     site_dir_conf: '{{ site_url }}-dir.conf'
     site_ssl_conf: '{{ site_url }}-ssl.conf'

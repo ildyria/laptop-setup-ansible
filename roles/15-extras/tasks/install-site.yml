@@ -26,7 +26,7 @@
 
 - name: Generage certificate for {{ site_url }}
   ansible.builtin.command:
-    cmd: ./microca -domains {{ site_url }}
+    cmd: ./microca -domains {{ site_url }} -exp-days 3650
     chdir: '{{ microca_dir }}'
     creates: '{{ microca_dir }}/{{ site_url }}'
   register: site_test_cert
@@ -40,7 +40,8 @@
     group: '{{ linux_user }}'
     mode: '0750'
     recurse: true
-  when: not site_key_exists.stat.exists and site_test_cert is success
+  when: site_test_cert is success
+  # when: not site_key_exists.stat.exists and site_test_cert is success
 
 - name: Install {{ site_url }} private key
   become: true
@@ -48,7 +49,8 @@
     src: '{{ microca_dir }}/{{ site_url }}/key.pem'
     dest: '/etc/ssl/private/{{ site_url }}.key'
     mode: '0640'
-  when: not site_key_exists.stat.exists and site_test_cert is success
+  when: site_test_cert is success
+  # when: not site_key_exists.stat.exists and site_test_cert is success
 
 - name: Install {{ site_url }} certificate
   become: true
@@ -56,7 +58,8 @@
     src: '{{ microca_dir }}/{{ site_url }}/cert.pem'
     dest: '/etc/ssl/certs/{{ site_url }}.pem'
     mode: '0777'
-  when: not site_key_exists.stat.exists and site_test_cert is success
+  when: site_test_cert is success
+  # when: not site_key_exists.stat.exists and site_test_cert is success
 
 - name: Check if exists {{ site_dir_conf }}
   ansible.builtin.stat:

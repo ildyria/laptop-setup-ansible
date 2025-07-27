@@ -1,0 +1,10 @@
+# code: language=ansible
+---
+- name: Setup {{ tailwindpoc_url }}
+  ansible.builtin.import_tasks: 'install-site.yml'
+  vars:
+    site_url: '{{ tailwindpoc_url }}'
+    site_root_dir: '{{ tailwindpoc_dir }}'
+    site_public_dir: '{{ tailwindpoc_dir }}/public'
+    site_dir_conf: '{{ site_url }}-dir.conf'
+    site_ssl_conf: '{{ site_url }}-ssl.conf'

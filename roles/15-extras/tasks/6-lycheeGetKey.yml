@@ -1,0 +1,31 @@
+# code: language=ansible
+---
+- name: Check if exists {{ lychee_get_key_dir }}
+  ansible.builtin.stat:
+    path: '{{ lychee_get_key_dir }}'
+  register: lychee_get_key_dir_exists
+
+- name: Clone lychee_get_key
+  ansible.builtin.git:
+    repo: '{{ lychee_get_key_repo }}'
+    dest: '{{ lychee_get_key_dir }}'
+    key_file: '{{ sshkey_file }}'
+  when: not lychee_get_key_dir_exists.stat.exists
+
+- name: Update owner & permissions of {{ lychee_get_key_dir }}
+  become: true
+  ansible.builtin.file:
+    path: '{{ lychee_get_key_dir }}'
+    owner: '{{ linux_user }}'
+    group: 'www-data'
+    recurse: true
+  tags: ['skip_ansible_lint']
+
+- name: Setup {{ lychee_get_key_url }}
+  ansible.builtin.import_tasks: 'install-site.yml'
+  vars:
+    site_url: '{{ lychee_get_key_url }}'
+    site_root_dir: '{{ lychee_get_key_dir }}'
+    site_public_dir: '{{ lychee_get_key_dir }}/public/'
+    site_dir_conf: '{{ site_url }}-dir.conf'
+    site_ssl_conf: '{{ site_url }}-ssl.conf'

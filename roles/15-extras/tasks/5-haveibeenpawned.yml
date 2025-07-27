@@ -1,0 +1,31 @@
+# code: language=ansible
+---
+- name: Check if exists {{ haveibeenpawned_dir }}
+  ansible.builtin.stat:
+    path: '{{ haveibeenpawned_dir }}'
+  register: haveibeenpawned_dir_exists
+
+- name: Clone haveibeenpawned
+  ansible.builtin.git:
+    repo: '{{ haveibeenpawned_repo }}'
+    dest: '{{ haveibeenpawned_dir }}'
+    key_file: '{{ sshkey_file }}'
+  when: not haveibeenpawned_dir_exists.stat.exists
+
+- name: Update owner & permissions of {{ haveibeenpawned_dir }}
+  become: true
+  ansible.builtin.file:
+    path: '{{ haveibeenpawned_dir }}'
+    owner: '{{ linux_user }}'
+    group: 'www-data'
+    recurse: true
+  tags: ['skip_ansible_lint']
+
+- name: Setup {{ haveibeenpawned_url }}
+  ansible.builtin.import_tasks: 'install-site.yml'
+  vars:
+    site_url: '{{ haveibeenpawned_url }}'
+    site_root_dir: '{{ haveibeenpawned_dir }}'
+    site_public_dir: '{{ haveibeenpawned_dir }}/public/'
+    site_dir_conf: '{{ site_url }}-dir.conf'
+    site_ssl_conf: '{{ site_url }}-ssl.conf'

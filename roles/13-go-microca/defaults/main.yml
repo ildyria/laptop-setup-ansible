@@ -5,7 +5,7 @@ install_dir: '{{ home_dir }}/.install'
 
 # Go
 go_dir: '/usr/local/go'
-go_url: 'https://go.dev/dl/go1.20.3.linux-amd64.tar.gz'
+go_url: 'https://go.dev/dl/go1.24.5.linux-amd64.tar.gz'
 go_tar: '{{ install_dir }}/go.tar.gz'
 go_bin: '{{ go_dir }}/bin/go'
 

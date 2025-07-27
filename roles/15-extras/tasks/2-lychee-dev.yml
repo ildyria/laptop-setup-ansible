@@ -34,6 +34,21 @@
     priv: '{{ lychee_db_name }}.*:ALL'
     state: present
 
+- name: Create new databases named {{ lychee_db_name2 }}
+  become: true
+  community.mysql.mysql_db:
+    name:
+      - '{{ lychee_db_name2 }}'
+    state: present
+
+- name: Create database user for {{ lychee_db_name2 }} with all database privileges
+  become: true
+  community.mysql.mysql_user:
+    name: '{{ lychee_db_user2 }}'
+    password: '{{ lychee_db_password }}'
+    priv: '{{ lychee_db_name2 }}.*:ALL'
+    state: present
+
 - name: Install .env file
   ansible.builtin.template:
     src: 'lychee/.env.j2'

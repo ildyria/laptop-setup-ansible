@@ -18,8 +18,10 @@ lychee_dir: '{{ project_dir }}/Lychee'
 lychee_url: 'lychee.test'
 lychee_repo: 'git@github.com:LycheeOrg/Lychee'
 
+lychee_db_name2: 'lychee2'
 lychee_db_name: 'lychee'
 lychee_db_user: 'lychee'
+lychee_db_user2: 'lychee2'
 lychee_db_password: 'password'
 
 # LycheeOrg
@@ -27,6 +29,22 @@ lychee_org_dir: '{{ project_dir }}/LycheeOrg'
 lychee_org_url: 'lycheeorg.test'
 lychee_org_repo: 'git@github.com:LycheeOrg/LycheeOrg.github.io'
 
+# TailwindPoC
+tailwindpoc_dir: '{{ project_dir }}/TailwindPoC'
+tailwindpoc_url: 'tailwind.test'
+
+
 # Microca
 microca_dir: '{{ install_dir }}/microca'
 microca_root_ca: '{{ microca_dir }}/microca.pem'
+
+# aab.haveibeenpawned.test
+haveibeenpawned_dir: '{{ project_dir }}/aab.haveibeenpawned.nl'
+haveibeenpawned_url: 'aab.haveibeenpawned.nl'
+haveibeenpawned_repo: 'git@github.com:ildyria/haveibeenpawned.git'
+
+# lychee-get-key.test
+lychee_get_key_dir: '{{ project_dir }}/Lychee-get-key'
+lychee_get_key_url: 'lychee-get-key.test'
+lychee_get_key_repo: 'git@github.com:LycheeOrg/Lychee-get-key.git'
+# haveibeenpawned_repo: 'git@github.com:ildyria/haveibeenpawned.git'
